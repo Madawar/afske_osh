@@ -61,7 +61,7 @@ class IncidentController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('view_report')->with(compact('id'));
     }
 
     /**

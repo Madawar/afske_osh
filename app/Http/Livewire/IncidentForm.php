@@ -2,9 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\ManagerAssigned;
 use App\Models\Department;
+use App\Models\User;
 use App\Models\Incident;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class IncidentForm extends Component
 {
@@ -29,9 +34,13 @@ class IncidentForm extends Component
     public $staff_name;
     public $staff_pno;
     public $staff_injury;
-    public $incident_id;
+    public $incident_id = null;
     public $vehicles = array();
     public $staff = array();
+
+    //Assign
+    public $assigned_to_email;
+    public $assigned_to_name;
 
     protected $rules = [
         'date' => 'required|date',
@@ -49,7 +58,9 @@ class IncidentForm extends Component
         'narration' => 'required',
         'immediate_corrective_action' => 'required',
         'vehicles' => '',
-        'staff' => ''
+        'staff' => '',
+        'assigned_to_email' => '',
+        'assigned_to_name' => ''
     ];
 
     public function updated($propertyName)
@@ -86,6 +97,9 @@ class IncidentForm extends Component
         $this->operational_impact = $incident->operational_impact;
         $this->narration = $incident->narration;
         $this->immediate_corrective_action = $incident->immediate_corrective_action;
+        $this->assigned_to_email = $incident->assigned_to_email;
+        $this->assigned_to_name = $incident->assigned_to_name;
+
         $this->vehicles = json_decode($incident->vehicles);
         if ($this->vehicles != null) {
             foreach ($this->vehicles as $key => $value) {
@@ -94,7 +108,7 @@ class IncidentForm extends Component
         }
 
         $this->staff = json_decode($incident->staff);
-        if ($this->staff != null ) {
+        if ($this->staff != null) {
             foreach ($this->staff as $key => $value) {
                 $this->staff[$key] = (array)$value;
             }
@@ -103,6 +117,7 @@ class IncidentForm extends Component
 
     public function saveReport()
     {
+        $this->validate();
         Incident::create(array(
             'date' => $this->date,
             'reporter' => $this->reporter,
@@ -121,6 +136,27 @@ class IncidentForm extends Component
         ));
     }
 
+    public function assignToManager($id)
+    {
+        $incident = Incident::find($id);
+        $incident->update(array(
+            'assigned_to_email' => $this->assigned_to_email,
+            'assigned_to_name' => $this->assigned_to_name
+        ));
+        $password = Str::random(4);
+        $user =  User::where('email', $this->assigned_to_email)->first();
+        if ($user) {
+        } else {
+           $user =  User::create(array(
+                'name' => $this->assigned_to_name,
+                'email' => $this->assigned_to_email,
+                'password' => Hash::make(Str::random(4)),
+                'account_type'=>'manager'
+            ));
+        }
+
+        Mail::to($this->assigned_to_email)->send(new ManagerAssigned($incident, $user));
+    }
     public function addVehicle()
     {
         array_push($this->vehicles, array(
@@ -128,6 +164,9 @@ class IncidentForm extends Component
             'registration' => $this->registration,
             'damage' => $this->damage,
         ));
+        $this->model = '';
+        $this->registration = '';
+        $this->damage = '';
     }
     public function addStaff()
     {
@@ -136,6 +175,9 @@ class IncidentForm extends Component
             'staff_pno' => $this->staff_pno,
             'staff_injury' => $this->staff_injury,
         ));
+        $this->staff_name = '';
+        $this->staff_pno = '';
+        $this->staff_injury = '';
     }
 
     public function removeVehicle($index)

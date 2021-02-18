@@ -33,6 +33,9 @@ class CreateIncidentsTable extends Migration
             //Findings
             $table->text('root_cause')->nullable();
             $table->text('corrective_action')->nullable();
+            $table->text('findings')->nullable();
+            $table->string('assigned_to_email')->nullable();
+            $table->string('assigned_to_name')->nullable();
             //Osh Review
             $table->string('lti')->nullable();
             $table->string('cost')->nullable();
@@ -41,6 +44,8 @@ class CreateIncidentsTable extends Migration
             //Vehicles
             $table->json('vehicles')->nullable();
             $table->json('staff')->nullable();
+            //Finalized
+            $table->boolean('finalized')->default(0);
             $table->timestamps();
         });
     }

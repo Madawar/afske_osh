@@ -1,5 +1,5 @@
-<div class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border-b border-gray-50">
-    <div class="flex-none w-72 bg-gray-50 ">
+<div class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2 mt-2">
+    <div class="flex-none w-72 bg-gray-50 border-r border-gray-300">
         <h1 class="text-center underline leading-loose tracking-widest font-extrabold">OSH Review
         </h1>
         <p class="font-sans p-2 leading-loose">
