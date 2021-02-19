@@ -68,7 +68,7 @@
                 noCalendar: true,
                 enableTime: true,
                 time_24hr: true,
-                dateFormat: 'h:i'
+                dateFormat: 'H:i'
             });
             Livewire.on('message', postId => {
                 MicroModal.show('modal-1');

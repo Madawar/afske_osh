@@ -73,11 +73,15 @@
                     <select type="text" placeholder="Location" wire:model="incident_type"
                         class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('incident_type') border-red-500 @enderror">
                         <option>Please Choose</option>
-                        <option value="Employee injury incident">Employee injury incident</option>
-                        <option value="Environmental incident">Environmental incident</option>
-                        <option value="Property damage incident">Property damage incident</option>
-                        <option value="Vehicle incident">Vehicle incident</option>
-                        <option value="Fire incident">Fire incident</option>
+                        <option value="MV Damage">MV Damage</option>
+                        <option value="Aircraft Damage">Aircraft Damage</option>
+                        <option value="Property Damage">Property Damage</option>
+                        <option value="Cargo Damage">Cargo Damage</option>
+                        <option value="Equipment Damage">Equipment Damage</option>
+                        <option value="Personal Injury">Personal Injury</option>
+                        <option value="Environmental Spillage">Environmental Spillage (Fuel,Oil,Toilet Waste,Hydraulic Waste)</option>
+                        <option value="Near Miss">Near Miss</option>
+                        <option value="Hazard">Hazard</option>
 
                     </select>
                     @error('incident_type') <div class="text-red-600">{{ $message }}</div> @enderror

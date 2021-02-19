@@ -6,9 +6,11 @@ use App\Models\Incident;
 use Livewire\Component;
 use App\Traits\SearchTrait;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 class IncidentList extends Component
 {
+    use WithPagination;
     use SearchTrait;
     public $filter = null;
     public $search = null;
