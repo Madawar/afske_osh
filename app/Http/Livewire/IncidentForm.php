@@ -149,14 +149,14 @@ class IncidentForm extends Component
             'reporter' => 'required|min:3',
             'pno' => 'required|min:2',
             'department_id' => 'required',
-            'reporter_email' => 'required|email',
+            'reporter_email' => 'email',
             'time' => 'required',
             'location' => 'required',
             'incident_type' => 'required',
             'flight' => '',
             'operational_impact' => '',
-            'narration' => 'required',
-            'immediate_corrective_action' => 'required',
+            'narration' => 'required|min:100',
+            'immediate_corrective_action' => 'required|min:100',
             'vehicles' => '',
             'staff' => '',
         ]);
@@ -177,7 +177,7 @@ class IncidentForm extends Component
             'staff' => json_encode($this->staff),
         ));
         $this->incident_id = $incident->id;
-        $this->message('This Incident has been successfully recorded and an OSH staff will  assign it to a manager to resolve.');
+        $this->message('This Incident <b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
     }
 
     public function updateReport()
@@ -187,14 +187,14 @@ class IncidentForm extends Component
             'reporter' => 'required|min:3',
             'pno' => 'required|min:2',
             'department_id' => 'required',
-            'reporter_email' => 'required|email',
+            'reporter_email' => 'email',
             'time' => 'required',
             'location' => 'required',
             'incident_type' => 'required',
             'flight' => '',
             'operational_impact' => '',
-            'narration' => 'required',
-            'immediate_corrective_action' => 'required',
+            'narration' => 'required|min:100',
+            'immediate_corrective_action' => 'required|min:100',
             'vehicles' => '',
             'staff' => '',
         ]);
@@ -216,7 +216,7 @@ class IncidentForm extends Component
             'staff' => json_encode($this->staff),
         ));
         $this->incident_id = $incident->id;
-        $this->message('This Incident has been successfully updated and an OSH staff will assign it to a manager to resolve.');
+        $this->message('This Incident :<b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
     }
 
     public function assignToManager($id)
@@ -326,5 +326,9 @@ class IncidentForm extends Component
     {
         session()->flash('message', $message);
         $this->emit('message', $message);
+    }
+    public function reload()
+    {
+        $this->reset();
     }
 }

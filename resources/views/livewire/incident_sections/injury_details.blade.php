@@ -26,7 +26,7 @@
                 </div>
                 <div class="flex-auto">
                     <div class=" focus-within:text-gray-600 text-gray-400">
-                        <input type="text" placeholder="Staff Injury" wire:model="staff_injury"
+                        <input type="text" placeholder="Staff Injury or Actions" wire:model="staff_injury"
                             class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('staff_injury') border-red-500 @enderror">
                         @error('staff_injury') <div class="text-red-600">{{ $message }}</div> @enderror
                     </div>
@@ -54,7 +54,7 @@
                             <tr class="bg-gray-100 border-b border-gray-200">
                                 <td class="px-4 py-3">{{ $st['staff_name'] }}</td>
                                 <td class="px-4 py-3">{{ $st['staff_pno'] }}</td>
-                                <td class="px-4 py-3">{{ $st['staff_injury'] }}</td>
+                                <td class="px-4 py-3">{{ Str::limit($st['staff_injury'], 20)  }}</td>
                                 <td class="px-4 py-3"> <button wire:click="removeStaff({{$loop->index}})" >Remove</button></td>
                             </tr>
                         @endforeach

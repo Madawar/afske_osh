@@ -12,6 +12,9 @@
                     class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">Save
                     Incident
                     Report</button>
+                    <button wire:click="reload"
+                    class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
+                    New Report / Refresh </button>
                 <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3" wire:loading
                     wire:target="saveReport">
                     Saving Report
@@ -41,6 +44,7 @@
                     class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">Update
                     Incident
                     Report</button>
+
                 <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3" wire:loading
                     wire:target="updateReport">
                     Updating Report
