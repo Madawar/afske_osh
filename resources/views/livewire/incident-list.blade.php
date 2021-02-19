@@ -23,7 +23,10 @@
                     class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                     <option value="null">All</option>
                     <option value="1">Finalized</option>
-                    <option value="0">Unfinalized</option>
+                    <option value="unassigned">Unassigned For Closure</option>
+                    <option value="review">For Review By Osh Department</option>
+                    <option value="unresponsive">Assigned But No Response</option>
+                    <option value="toMe">Assigned To Me</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -60,7 +63,7 @@
         <tbody>
             @foreach ($incidents as $incident)
                 <tr class=>
-                    <td class="p-3 border border-r border-gray-50">{{ $incident->incident_no }}</td>
+                    <td class="p-3 border border-r border-gray-50"><a href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
                     <td class="p-3 border border-r border-gray-50">{{ $incident->date }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->reporter, 15) }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ $incident->department->name }}</td>
@@ -69,7 +72,7 @@
                         @if ($incident->assigned_to_email == null)
 
                         <a class="inline-block px-6 py-0 text-xs font-medium leading-6 text-center text-green-500 uppercase transition bg-transparent border-2 border-green-500 rounded ripple hover:bg-green-100 focus:outline-none"
-                            href="{{ url("/incidents/{$incident->id}/edit") }}">
+                            href="{{ url("/incidents/{$incident->id}/edit") }}#assign">
                             Assign
                         </a>
                         @else

@@ -2,7 +2,7 @@
     <div class="flex-none w-72 bg-gray-50 border-r border-gray-300 ">
         <h1 class="text-center underline leading-loose tracking-widest font-extrabold">Incident Details</h1>
         <p class="font-sans p-2 leading-loose">
-            Hi <b>{{explode(' ',$reporter)[0]}}</b>,  <br />
+            Hi <b>{{ explode(' ', $reporter)[0] }}</b>, <br />
             A good Incident report should include the below : - <br />
         <ol class="list-decimal ml-5 leading-loose">
             <li>Type of incident (injury, near miss, property damage, or theft)</li>
@@ -10,7 +10,8 @@
             <li>Date of incident.</li>
             <li>Time of incident.</li>
             <li>Name of affected individual.</li>
-            <li>A narrative description of the incident, including the sequence of events and results of the incident.</li>
+            <li>A narrative description of the incident, including the sequence of events and results of the incident.
+            </li>
         </ol>
         </p>
     </div>
@@ -71,16 +72,13 @@
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <select type="text" placeholder="Location" wire:model="incident_type"
                         class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('incident_type') border-red-500 @enderror">
-                        <option value="Employee injury incident">Employee injury incident
-                        <option>
-                        <option value="Environmental incident">Environmental incident
-                        <option>
-                        <option value="Property damage incident">Property damage incident
-                        <option>
-                        <option value="Vehicle incident">Vehicle incident
-                        <option>
-                        <option value="Fire incident">Fire incident
-                        <option>
+                        <option>Please Choose</option>
+                        <option value="Employee injury incident">Employee injury incident</option>
+                        <option value="Environmental incident">Environmental incident</option>
+                        <option value="Property damage incident">Property damage incident</option>
+                        <option value="Vehicle incident">Vehicle incident</option>
+                        <option value="Fire incident">Fire incident</option>
+
                     </select>
                     @error('incident_type') <div class="text-red-600">{{ $message }}</div> @enderror
                 </div>

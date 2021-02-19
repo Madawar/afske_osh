@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2 mt-2">
+<div id="assign" class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2 mt-2">
     <div class="flex-none w-72 bg-gray-50 border-r border-gray-300">
         <h1 class="text-center underline leading-loose tracking-widest font-extrabold">Assign To Manager</h1>
         <p class="font-sans p-2 leading-loose">
@@ -34,6 +34,9 @@
                     class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
                     Assign to Manager
                 </button>
+                <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3" wire:loading wire:target="assignToManager">
+                    Sending Email to {{$assigned_to_name}}
+                </div>
 
                 </div>
               </div>

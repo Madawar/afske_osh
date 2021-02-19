@@ -7,9 +7,9 @@
     <title>{{env('APP_NAME')}}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{asset('/css/app.css')}}" rel="stylesheet">
     @livewireStyles
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 </head>
 
 <body>
@@ -22,10 +22,10 @@
     </div>
 
     </div>
-
-    <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @livewireScripts
+    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{asset('js/plugins.js')}}"></script>
+
 </body>
 
 </html>

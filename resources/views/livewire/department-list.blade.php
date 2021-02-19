@@ -56,7 +56,13 @@
                 <tr class=>
                     <td class="p-3 border border-r border-gray-50">{{ $department->name }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ $department->owner->name }}</td>
-                    <td class="p-3 border border-r border-gray-50"></td>
+                    <td class="p-3 border border-r border-gray-50">
+                        <button wire:click="removeDepartment({{ $department->id }})"
+                            class="inline-block px-3 py-1 text-xs font-medium leading-6 text-center text-red-500 uppercase transition bg-transparent border-2 border-red-500 rounded ripple hover:bg-red-100 focus:outline-none">
+                            Remove Department
+                        </button>
+
+                    </td>
                 </tr>
             @endforeach
 

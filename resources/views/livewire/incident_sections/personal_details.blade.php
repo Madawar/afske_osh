@@ -13,8 +13,8 @@
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <input type="text" placeholder="Your Name" wire:model="reporter"
                         class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300   focus:outline-none text-gray-600 @error('reporter') border-red-500 @enderror ">
-                        @error('reporter') <div class="text-red-600">{{ $message }}</div> @enderror
-                    </div>
+                    @error('reporter') <div class="text-red-600">{{ $message }}</div> @enderror
+                </div>
             </div>
 
             <div class="flex flex-col">
@@ -22,8 +22,8 @@
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <input type="text" placeholder="Your Email" wire:model="reporter_email"
                         class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('reporter_email') border-red-500 @enderror">
-                        @error('reporter_email') <div class="text-red-600">{{ $message }}</div> @enderror
-                    </div>
+                    @error('reporter_email') <div class="text-red-600">{{ $message }}</div> @enderror
+                </div>
             </div>
 
         </div>
@@ -36,8 +36,8 @@
             <div class=" focus-within:text-gray-600 text-gray-400">
                 <input type="text" placeholder="Payroll Number" wire:model="pno"
                     class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('pno') border-red-500 @enderror">
-                    @error('pno') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
+                @error('pno') <div class="text-red-600">{{ $message }}</div> @enderror
+            </div>
         </div>
 
     </div>
@@ -48,9 +48,10 @@
             <div class=" focus-within:text-gray-600 text-gray-400">
                 <select type="text" placeholder="Department" wire:model="department_id"
                     class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('department_id') border-red-500 @enderror">
+                    <option>Please Choose</option>
                     @foreach ($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                @endforeach
+                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    @endforeach
 
                 </select>
                 @error('department_id') <div class="text-red-600">{{ $message }}</div> @enderror

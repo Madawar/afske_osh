@@ -21,7 +21,7 @@ class DepartmentList extends Component
     {
         $departments = Department::with('owner')->paginate(10);
         $managers = User::all();
-        return view('livewire.department-list')->with(compact('departments','managers'));
+        return view('livewire.department-list')->with(compact('departments', 'managers'));
     }
 
     public function addDepartment()
@@ -30,5 +30,9 @@ class DepartmentList extends Component
             'name' => $this->name,
             'manager_id' => $this->manager
         ));
+    }
+    public function removeDepartment($id)
+    {
+        Department::destroy($id);
     }
 }

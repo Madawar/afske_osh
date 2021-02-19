@@ -21,6 +21,7 @@
         "tailwindcss": "^2.0.2"
     },
     "dependencies": {
-        "flatpickr": "^4.6.9"
+        "flatpickr": "^4.6.9",
+        "micromodal": "^0.4.6"
     }
 }

@@ -46,10 +46,13 @@ class IncidentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        // $path =  $this->toWord($id);
-        //return Storage::download($path);
+        if ($request->has('word')) {
+            $path =  $this->toWord($id);
+            return Storage::download($path);
+        }
+
         return view('view_report')->with(compact('id'));
     }
 

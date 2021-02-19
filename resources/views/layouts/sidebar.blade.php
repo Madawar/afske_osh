@@ -1,6 +1,7 @@
 <div class="flex w-full max-w-xs p-4 bg-white">
     <?php use App\Http\Controllers\IncidentController;?>
     <?php use App\Http\Controllers\DepartmentController;?>
+    <?php use  App\Models\Incident;?>
     <ul class="flex flex-col w-full">
         <li class="my-px">
             <a href="{{action([IncidentController::class, 'index'])}}"
@@ -11,7 +12,7 @@
                       </svg>
                 </span>
                 <span class="ml-3">Incidents</span>
-                <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-200 h-6 px-2 rounded-full ml-auto">3</span>
+                <span class="flex items-center justify-center text-sm text-gray-500 font-semibold bg-gray-200 h-6 px-2 rounded-full ml-auto">{{Incident::where('finalized',0)->count()}}</span>
             </a>
         </li>
 
