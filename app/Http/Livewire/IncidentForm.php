@@ -62,7 +62,7 @@ class IncidentForm extends Component
         'reporter' => 'required|min:3',
         'pno' => 'required|min:2',
         'department_id' => 'required',
-        'reporter_email' => 'required|email',
+        'reporter_email' => 'email',
         'time' => 'required',
         'location' => 'required',
         'incident_type' => 'required',
