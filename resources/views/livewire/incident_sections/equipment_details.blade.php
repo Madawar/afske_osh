@@ -54,7 +54,7 @@
                                 <tr class="bg-gray-100 border-b border-gray-200">
                                     <td class="px-4 py-3">{{ $vehicle['model'] }}</td>
                                     <td class="px-4 py-3">{{ $vehicle['registration'] }}</td>
-                                    <td class="px-4 py-3">{{ Str::limit($vehicle['damage'], 20)  }}<</td>
+                                    <td class="px-4 py-3">{{ Str::limit($vehicle['damage'], 20)  }}</td>
                                     <td class="px-4 py-3"> <button
                                             wire:click="removeVehicle({{ $loop->index }})">Remove</button></td>
                                 </tr>

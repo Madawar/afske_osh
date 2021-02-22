@@ -46,6 +46,7 @@ class CreateIncidentsTable extends Migration
             $table->json('staff')->nullable();
             //Finalized
             $table->boolean('finalized')->default(0);
+            $table->json('photos')->nullable();
             $table->timestamps();
         });
     }

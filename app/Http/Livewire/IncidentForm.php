@@ -13,9 +13,15 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
 
 class IncidentForm extends Component
 {
+
+    use WithFileUploads;
+
+    public $photos = [];
+    public $images = [];
 
     public $date;
     public $reporter;
@@ -129,6 +135,7 @@ class IncidentForm extends Component
         $this->review_of_root_cause = $incident->review_of_root_cause;
         $this->finalized = $incident->finalized;
         $this->vehicles = json_decode($incident->vehicles);
+
         if ($this->vehicles != null) {
             foreach ($this->vehicles as $key => $value) {
                 $this->vehicles[$key] = (array)$value;
@@ -138,6 +145,12 @@ class IncidentForm extends Component
         if ($this->staff != null) {
             foreach ($this->staff as $key => $value) {
                 $this->staff[$key] = (array)$value;
+            }
+        }
+        $this->images = json_decode($incident->photos);
+        if ($this->images != null) {
+            foreach ($this->images as $key => $value) {
+                $this->images[$key] = $value;
             }
         }
     }
@@ -155,10 +168,9 @@ class IncidentForm extends Component
             'incident_type' => 'required',
             'flight' => '',
             'operational_impact' => '',
-            'narration' => 'required|min:100',
-            'immediate_corrective_action' => 'required|min:100',
-            'vehicles' => '',
-            'staff' => '',
+            'narration' => 'required|min:50',
+            'immediate_corrective_action' => 'required|min:50',
+
         ]);
         $incident =  Incident::create(array(
             'date' => $this->date,
@@ -175,6 +187,7 @@ class IncidentForm extends Component
             'immediate_corrective_action' => $this->immediate_corrective_action,
             'vehicles' => json_encode($this->vehicles),
             'staff' => json_encode($this->staff),
+            'photos' => json_encode($this->images)
         ));
         $this->incident_id = $incident->id;
         $this->message('This Incident <b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
@@ -193,12 +206,12 @@ class IncidentForm extends Component
             'incident_type' => 'required',
             'flight' => '',
             'operational_impact' => '',
-            'narration' => 'required|min:100',
-            'immediate_corrective_action' => 'required|min:100',
-            'vehicles' => '',
-            'staff' => '',
+            'narration' => 'required|min:50',
+            'immediate_corrective_action' => 'required|min:50',
+
         ]);
         $incident =  Incident::find($this->incident_id);
+        //dd($this->photos);
         $incident->update(array(
             'date' => $this->date,
             'reporter' => $this->reporter,
@@ -214,6 +227,7 @@ class IncidentForm extends Component
             'immediate_corrective_action' => $this->immediate_corrective_action,
             'vehicles' => json_encode($this->vehicles),
             'staff' => json_encode($this->staff),
+            'photos' => json_encode($this->images)
         ));
         $this->incident_id = $incident->id;
         $this->message('This Incident :<b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
@@ -289,9 +303,26 @@ class IncidentForm extends Component
             $this->message('A response has been sent to the Manager.');
         }
     }
+    public function savePhoto()
+    {
+        $this->validate([
+            'photos.*' => 'image|max:2024', // 1MB Max
+        ]);
 
+        foreach ($this->photos as $photo) {
+            $uploadedFile =  $photo->store('public/photos');
+            $extension = explode('/', $uploadedFile);
+            $filename = end($extension);
+            $this->images[] = $filename;
+        }
+    }
     public function addVehicle()
     {
+        $this->validate(
+            array(
+                'model' => 'min:3'
+            )
+        );
         array_push($this->vehicles, array(
             'model' => $this->model,
             'registration' => $this->registration,
@@ -303,6 +334,11 @@ class IncidentForm extends Component
     }
     public function addStaff()
     {
+        $this->validate(
+            array(
+                'staff_name' => 'min:3'
+            )
+        );
         array_push($this->staff, array(
             'staff_name' => $this->staff_name,
             'staff_pno' => $this->staff_pno,
@@ -329,6 +365,6 @@ class IncidentForm extends Component
     }
     public function reload()
     {
-        $this->reset();
+        return redirect()->to('/');
     }
 }

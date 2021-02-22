@@ -1,6 +1,7 @@
 <div class="flex w-full max-w-xs p-4 bg-white">
     <?php use App\Http\Controllers\IncidentController;?>
     <?php use App\Http\Controllers\DepartmentController;?>
+    <?php use App\Http\Controllers\InsightController;?>
     <?php use  App\Models\Incident;?>
     <ul class="flex flex-col w-full">
         <li class="my-px">
@@ -27,7 +28,17 @@
                 <span class="ml-3">Departments</span>
             </a>
         </li>
-
+        <li class="my-px">
+            <a href="{{action([InsightController::class, 'index'])}}"
+               class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100 {{ (request()->is('insight')) ? 'bg-gray-100' : '' }} ">
+                <span class="flex items-center justify-center text-lg text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                </span>
+                <span class="ml-3">Insights</span>
+            </a>
+        </li>
 
         <li class="my-px">
             <a href="/"

@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-.combine(['resources/js/plugins/micromodal.min.js','resources/js/plugins/flatpickr.js'],'public/js/plugins.js')
+.combine(['resources/js/plugins/micromodal.min.js','resources/js/plugins/flatpickr.js','resources/js/plugins/Chart.bundle.min.js'],'public/js/plugins.js')
 .postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),

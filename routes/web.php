@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\InsightController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,3 +36,4 @@ require __DIR__ . '/auth.php';
 Route::resource('incidents', IncidentController::class)->middleware('auth');
 
 Route::resource('department', DepartmentController::class)->middleware('auth');
+Route::resource('insight', InsightController::class)->middleware('auth');
