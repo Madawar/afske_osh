@@ -6,7 +6,7 @@ use App\Models\Incident;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use PDF;
 class IncidentController extends Controller
 {
     /**
@@ -16,6 +16,7 @@ class IncidentController extends Controller
      */
     public function index()
     {
+
         return view('view_incidents');
     }
 

@@ -54,7 +54,7 @@
         </thead>
         <tbody>
             @foreach ($incidents as $incident)
-                <tr class=>
+                <tr class="">
                     <td class="p-3 border border-r border-gray-50"><a href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
                     <td class="p-3 border border-r border-gray-50">{{ $incident->date }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->reporter, 15) }}</td>

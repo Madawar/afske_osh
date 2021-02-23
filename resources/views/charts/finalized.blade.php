@@ -7,9 +7,9 @@
                 labels: [
                     @foreach($incidents as $incident)
                     @if($incident->finalized == 0)
-                       'No',
+                       'Open',
                        @else
-                       'Yes'
+                       'Closed'
                     @endif
                     @endforeach
                 ],
