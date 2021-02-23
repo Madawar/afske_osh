@@ -6,7 +6,7 @@ use App\Http\Controllers\InsightController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Jenssegers\Agent\Agent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,13 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('form');
+    $agent = new Agent();
+    if ($agent->browser() == "Firefox" or $agent->browser() == "Chrome") {
+        return view('form');
+    }
+    return "Please use Chrome or Firefox";
 });
 
 Route::get('/auto_login/{email}/{id}', function ($email, $id) {
-    $user = User::where('email',$email)->first();
+    $user = User::where('email', $email)->first();
     Auth::loginUsingId($user->id);
-    return redirect('/incidents/'.$id);
+    return redirect('/incidents/' . $id);
 });
 
 Route::get('/dashboard', function () {
