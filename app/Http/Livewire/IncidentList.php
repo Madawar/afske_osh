@@ -15,11 +15,13 @@ class IncidentList extends Component
     public $filter = null;
     public $search = null;
     public $pagination = null;
+    public $sortBy = null;
 
     protected $rules = [
         'filter' => '',
         'search' => '',
         'pagination' => '',
+        'sortBy' => '',
     ];
     public function render()
     {
@@ -38,6 +40,9 @@ class IncidentList extends Component
                 $query->where('finalized', $this->filter);
             }
         }
+        if ($this->sortBy) {
+            $query->orderBy($this->sortBy);
+        }
         if ($this->search) {
             $query->search($this->search, []);
         }
@@ -48,5 +53,10 @@ class IncidentList extends Component
         }
 
         return view('livewire.incident-list')->with(compact('incidents'));
+    }
+
+    public function sortBy($name)
+    {
+        $this->sortBy = $name;
     }
 }
