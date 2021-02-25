@@ -77,7 +77,7 @@
                     <option value="anonymous">Anonymous</option>
 
                 </select>
-                @error('department_id') <div class="text-red-600">{{ $message }}</div> @enderror
+                @error('report_type') <div class="text-red-600">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>
