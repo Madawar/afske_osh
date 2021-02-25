@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <table class="table-auto w-full">
+    <table class="table-auto w-full" wire:loading.class="cursor-wait">
         <thead>
             <tr class="bg-gray-400">
                 <th class="pr-5 pl-5 border-r border-t border-l border-gray-300 cursor-pointer">#</th>
