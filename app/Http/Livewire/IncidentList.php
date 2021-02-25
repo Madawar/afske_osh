@@ -42,6 +42,8 @@ class IncidentList extends Component
         }
         if ($this->sortBy) {
             $query->orderBy($this->sortBy);
+        }else{
+            $query->orderBy('created_at','DESC');
         }
         if ($this->search) {
             $query->search($this->search, []);
@@ -51,6 +53,8 @@ class IncidentList extends Component
         } else {
             $incidents = $query->paginate(10);
         }
+
+
 
         return view('livewire.incident-list')->with(compact('incidents'));
     }

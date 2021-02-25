@@ -70,7 +70,11 @@
                 <tr class="">
                     <td class="p-3 border border-r border-gray-50"><a
                             href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
-                    <td class=" p-3 border border-r border-gray-50">{{ $incident->date }}</td>
+                    <td class=" p-3 border border-r border-gray-50">
+                            {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}<span class="text-sm">({{ Carbon\Carbon::parse($incident->date)->diffInDays(Carbon\Carbon::today()) }} days
+                            ago)</span>
+
+                    </td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->reporter, 15) }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ $incident->department->name }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->incident_type, 12) }}</td>
