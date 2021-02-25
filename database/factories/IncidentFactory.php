@@ -24,6 +24,7 @@ class IncidentFactory extends Factory
         return [
             'reporter' => $this->faker->name,
             'pno' => $this->faker->randomNumber(3, true),
+            'telephone'=>$this->faker->phoneNumber,
             'time' => $this->faker->time(),
             'date' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'reporter_email' => $this->faker->email,

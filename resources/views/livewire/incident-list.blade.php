@@ -79,8 +79,12 @@
                             View
                         </a>
                     </td>
-                    <td class="p-3 border border-r border-gray-50">
-                        @if ($incident->boolean)
+                    @if ($incident->finalized)
+                    <td class="p-3 border border-r border-gray-50 bg-green-200">
+                        @else
+                        <td class="p-3 border border-r border-gray-50 bg-red-200">
+                        @endif
+                        @if ($incident->finalized)
                             Yes
                         @else
                             No
