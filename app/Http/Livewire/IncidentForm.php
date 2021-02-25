@@ -183,7 +183,7 @@ class IncidentForm extends Component
         $incident =  Incident::create(array(
             'date' => $this->date,
             'reporter' => $this->reporter,
-            'reporter' => $this->report_type,
+            'report_type' => $this->report_type,
             'pno' => $this->pno,
             'telephone' => $this->telephone,
             'department_id' => $this->department_id,
@@ -228,7 +228,7 @@ class IncidentForm extends Component
             'date' => $this->date,
             'reporter' => $this->reporter,
             'pno' => $this->pno,
-            'reporter' => $this->report_type,
+            'report_type' => $this->report_type,
             'telephone' => $this->telephone,
             'department_id' => $this->department_id,
             'reporter_email' => $this->reporter_email,
