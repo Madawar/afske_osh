@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
+use Jenssegers\Agent\Agent;
+
 class IncidentController extends Controller
 {
     /**
@@ -65,6 +67,10 @@ class IncidentController extends Controller
      */
     public function edit($id)
     {
+        $agent = new Agent();
+        if ($agent->browser() != "Firefox" or $agent->browser() != "Chrome") {
+            return "Please use Chrome or Firefox";
+        }
         return view('view_report')->with(compact('id'));
     }
 

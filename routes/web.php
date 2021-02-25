@@ -19,13 +19,14 @@ use Jenssegers\Agent\Agent;
 */
 
 Route::get('/', function () {
-    $agent = new Agent();
-    if ($agent->browser() == "Firefox" or $agent->browser() == "Chrome") {
-        return view('form');
-    }
-    return "Please use Chrome or Firefox";
+    return view('form');
 });
+Route::get('/browser', function () {
+    $agent = new Agent();
+    $browser = $agent->browser();
+        return view('check_browser')->with(compact('browser'));
 
+});
 Route::get('/auto_login/{email}/{id}', function ($email, $id) {
     $user = User::where('email', $email)->first();
     Auth::loginUsingId($user->id);
@@ -33,7 +34,7 @@ Route::get('/auto_login/{email}/{id}', function ($email, $id) {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/incidents');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

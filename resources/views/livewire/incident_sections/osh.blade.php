@@ -1,4 +1,5 @@
-<div class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2 mt-2">
+<div id="close"
+    class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2 mt-2">
     <div class="flex-none w-72 bg-gray-50 border-r border-gray-300">
         <h1 class="text-center underline leading-loose tracking-widest font-extrabold">OSH Review
         </h1>
@@ -36,7 +37,36 @@
                         <div class=" focus-within:text-gray-600 text-gray-400">
                             <select type="text" placeholder="Risk Level" wire:model="risk_level"
                                 class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('risk_level') border-red-500 @enderror">
+                                <option>Please Choose</option>
+                                <option value="1A">1A</option>
+                                <option value="1B">1B</option>
+                                <option value="1C">1C</option>
+                                <option value="1D">1D</option>
+                                <option value="1E">1E</option>
 
+                                <option value="2A">2A</option>
+                                <option value="2B">2B</option>
+                                <option value="2C">2C</option>
+                                <option value="2D">2D</option>
+                                <option value="2E">2E</option>
+
+                                <option value="5A">3A</option>
+                                <option value="3B">3B</option>
+                                <option value="3C">3C</option>
+                                <option value="3D">3D</option>
+                                <option value="3E">3E</option>
+
+                                <option value="5A">5A</option>
+                                <option value="5B">5B</option>
+                                <option value="5C">5C</option>
+                                <option value="5D">5D</option>
+                                <option value="5E">5E</option>
+
+                                <option value="5A">5A</option>
+                                <option value="5B">5B</option>
+                                <option value="5C">5C</option>
+                                <option value="5D">5D</option>
+                                <option value="5E">5E</option>
                             </select>
                             @error('risk_level') <div class="error">{{ $message }}</div> @enderror
                         </div>
@@ -50,6 +80,7 @@
                         <div class=" focus-within:text-gray-600 text-gray-400">
                             <select type="text" placeholder="Risk Level" wire:model="finalized"
                                 class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('finalized') border-red-500 @enderror">
+                                <option>Please Choose</option>
                                 <option value="0">Unsatisfactory</option>
                                 <option value="1">Finalized</option>
                             </select>

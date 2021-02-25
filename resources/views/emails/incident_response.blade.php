@@ -25,7 +25,11 @@
     </p>
 
 
-    Kindly click the below link to close out this Incident
+    Kindly click the below link to review this Incident
     <br /><br />
+    <a href="{{env('APP_URL')}}/incidents/{{$incident->id}}#close">Review incident</a>
+    <br /><br />
+    <b>Copy the link below to your browser if you have any issue with clicking the above</b><br />
+    {{env('APP_URL')}}/incidents/{{$incident->id}}#close
 
 </div>

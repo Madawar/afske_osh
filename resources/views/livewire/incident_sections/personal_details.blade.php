@@ -18,7 +18,7 @@
             </div>
 
             <div class="flex flex-col">
-                <label class="leading-loose">Reporter Email Or Telephone:</label>
+                <label class="leading-loose">Reporter Email:</label>
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <input type="text" placeholder="Your Email" wire:model="reporter_email"
                         class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('reporter_email') border-red-500 @enderror">
@@ -40,6 +40,15 @@
             </div>
         </div>
 
+        <div class="flex flex-col">
+            <label class="leading-loose">Telephone Number:</label>
+            <div class=" focus-within:text-gray-600 text-gray-400">
+                <input type="text" placeholder="Your Telephone Number" wire:model="telephone"
+                    class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('telephone') border-red-500 @enderror">
+                @error('telephone') <div class="text-red-600">{{ $message }}</div> @enderror
+            </div>
+        </div>
+
     </div>
 
     <div class="flex-auto">
@@ -52,6 +61,20 @@
                     @foreach ($departments as $department)
                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                     @endforeach
+
+                </select>
+                @error('department_id') <div class="text-red-600">{{ $message }}</div> @enderror
+            </div>
+        </div>
+        <div class="flex flex-col p-2">
+            <label class="leading-loose">Report Type:</label>
+            <div class=" focus-within:text-gray-600 text-gray-400">
+                <select type="text" placeholder="Report Type" wire:model="report_type"
+                    class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('report_type') border-red-500 @enderror">
+
+                    <option value="normal">Normal</option>
+                    <option value="confidential">Confidential</option>
+                    <option value="anonymous">Anonymous</option>
 
                 </select>
                 @error('department_id') <div class="text-red-600">{{ $message }}</div> @enderror

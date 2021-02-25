@@ -25,6 +25,8 @@ class IncidentForm extends Component
 
     public $date;
     public $reporter;
+    public $report_type;
+    public $telephone;
     public $pno;
     public $department_id;
     public $reporter_email;
@@ -66,6 +68,8 @@ class IncidentForm extends Component
     protected $rules = [
         'date' => 'required|date',
         'reporter' => 'required|min:3',
+        'report_type' => 'required',
+        'telephone' => 'required',
         'pno' => 'required|min:2',
         'department_id' => 'required',
         'reporter_email' => 'email',
@@ -114,6 +118,8 @@ class IncidentForm extends Component
         $incident = Incident::find($id);
         $this->date = $incident->date;
         $this->reporter = $incident->reporter;
+        $this->report_type = $incident->report_type;
+        $this->telephone = $incident->telephone;
         $this->pno = $incident->pno;
         $this->department_id = $incident->department_id;
         $this->reporter_email = $incident->reporter_email;
@@ -160,6 +166,7 @@ class IncidentForm extends Component
         $this->validate([
             'date' => 'required|date',
             'reporter' => 'required|min:3',
+            'report_type' => 'required',
             'pno' => 'required|min:2',
             'department_id' => 'required',
             'reporter_email' => 'email',
@@ -170,12 +177,15 @@ class IncidentForm extends Component
             'operational_impact' => '',
             'narration' => 'required|min:50',
             'immediate_corrective_action' => 'required|min:50',
+            'telephone' => 'required|min:8'
 
         ]);
         $incident =  Incident::create(array(
             'date' => $this->date,
             'reporter' => $this->reporter,
+            'reporter' => $this->report_type,
             'pno' => $this->pno,
+            'telephone' => $this->telephone,
             'department_id' => $this->department_id,
             'reporter_email' => $this->reporter_email,
             'time' => $this->time,
@@ -198,6 +208,7 @@ class IncidentForm extends Component
         $this->validate([
             'date' => 'required|date',
             'reporter' => 'required|min:3',
+            'report_type' => 'required',
             'pno' => 'required|min:2',
             'department_id' => 'required',
             'reporter_email' => 'email',
@@ -208,6 +219,7 @@ class IncidentForm extends Component
             'operational_impact' => '',
             'narration' => 'required|min:50',
             'immediate_corrective_action' => 'required|min:50',
+            'telephone' => 'required|min:8'
 
         ]);
         $incident =  Incident::find($this->incident_id);
@@ -216,6 +228,8 @@ class IncidentForm extends Component
             'date' => $this->date,
             'reporter' => $this->reporter,
             'pno' => $this->pno,
+            'reporter' => $this->report_type,
+            'telephone' => $this->telephone,
             'department_id' => $this->department_id,
             'reporter_email' => $this->reporter_email,
             'time' => $this->time,
@@ -255,16 +269,16 @@ class IncidentForm extends Component
                 'account_type' => 'manager'
             ));
         }
-        Mail::to($this->assigned_to_email)->send(new ManagerAssigned($incident, $user));
+        Mail::to($this->assigned_to_email)->cc('osh@afske.aero')->send(new ManagerAssigned($incident, $user));
         $this->message('This Incident has been assigned to ' . $this->assigned_to_name . ' and email sent to him');
     }
 
     public function closeIncident($id)
     {
         $this->validate([
-            'root_cause' => '',
-            'findings' => '',
-            'corrective_action' => '',
+            'root_cause' => 'required|min:30',
+            'findings' => 'required|min:30',
+            'corrective_action' => 'required|min:30',
         ]);
         $incident = Incident::find($id);
         $incident->update(array(
