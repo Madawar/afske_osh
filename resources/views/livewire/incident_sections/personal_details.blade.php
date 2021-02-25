@@ -72,6 +72,7 @@
                 <select type="text" placeholder="Report Type" wire:model="report_type"
                     class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('report_type') border-red-500 @enderror">
 
+                    <option value="">Please Choose</option>
                     <option value="normal">Normal</option>
                     <option value="confidential">Confidential</option>
                     <option value="anonymous">Anonymous</option>
