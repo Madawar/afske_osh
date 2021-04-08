@@ -1,9 +1,9 @@
 @extends('layouts.app2')
 
 @section('content')
-<div>
+    <div>
 
-    @livewire('incident-form',['incident_id'=>null])
+        @livewire('incident-form',['incident_id'=>$query])
 
-</div>
+    </div>
 @endsection

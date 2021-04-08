@@ -34,6 +34,8 @@ class IncidentList extends Component
                 $query->whereNull('root_cause')->whereNotNull('assigned_to_email');
             } elseif ($this->filter == "review") {
                 $query->whereNotNull('root_cause')->where('finalized', 0);
+            } elseif ($this->filter == "deleted") {
+                $query->onlyTrashed();
             } elseif ($this->filter == "toMe") {
                 $query->where('assigned_to_email', Auth::user()->email)->whereNotNull('root_cause')->where('finalized', 0);
             } else {
@@ -42,11 +44,15 @@ class IncidentList extends Component
         }
         if ($this->sortBy) {
             $query->orderBy($this->sortBy);
-        }else{
-            $query->orderBy('created_at','DESC');
+        } else {
+            $query->orderBy('created_at', 'DESC');
         }
         if ($this->search) {
             $query->search($this->search, []);
+        }
+        if (Auth::user()->account_type == 'osh') {
+        } else {
+            $query =   $query->orWhere('reporter_email', Auth::user()->email)->orWhere('assigned_to_email', Auth::user()->email);
         }
         if ($this->pagination) {
             $incidents = $query->paginate($this->pagination);;
@@ -57,6 +63,10 @@ class IncidentList extends Component
 
 
         return view('livewire.incident-list')->with(compact('incidents'));
+    }
+    public function deleteIncident($id)
+    {
+        Incident::destroy($id);
     }
 
     public function sortBy($name)

@@ -23,6 +23,7 @@
                     <option value="unassigned">Unassigned For Closure</option>
                     <option value="review">For Review By Osh Department</option>
                     <option value="unresponsive">Assigned But No Response</option>
+                    <option value="deleted">Deleted</option>
                     <option value="toMe">Assigned To Me</option>
                 </select>
 
@@ -59,10 +60,12 @@
                     class="pr-5 pl-5  border-r border-t border-gray-300 cursor-pointer">Dep</th>
                 <th wire:click.prevent="sortBy('incident_type')"
                     class="pr-5 pl-5  border-r border-t border-gray-300 cursor-pointer">Type</th>
-                <th wire:click.prevent="sortBy('assigned_to_name')"
-                    class="pr-5 pl-5 border-r border-t border-gray-300 cursor-pointer">Assigned To</th>
+                    @if (Auth::user()->account_type == 'osh')
+                <th wire:click.prevent="sortBy('assigned_to_name')"  class="pr-5 pl-5 border-r border-t border-gray-300 cursor-pointer">Assigned To</th>
                 <th class="pr-5 pl-5 border-r border-t border-gray-300">View</th>
+                 @endif
                 <th class="pr-5 pl-5  border-r border-t border-gray-300">Finalized?</th>
+                 <th class="pr-5 pl-5  border-r border-t border-gray-300">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -71,32 +74,36 @@
                     <td class="p-3 border border-r border-gray-50"><a
                             href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
                     <td class=" p-3 border border-r border-gray-50">
-                            {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}<span class="text-sm">({{ Carbon\Carbon::parse($incident->date)->diffInDays(Carbon\Carbon::today()) }} days
-                            ago)</span>
+                          {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}  <!--<span
+                                class="text-sm">({{ Carbon\Carbon::parse($incident->date)->diffInDays(Carbon\Carbon::today()) }}
+                                days
+                                ago)--></span>
 
                     </td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->reporter, 15) }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ $incident->department->name }}</td>
                     <td class="p-3 border border-r border-gray-50">{{ Str::limit($incident->incident_type, 12) }}</td>
-                    <td class="p-3 border border-r border-gray-50">
-                        @if ($incident->assigned_to_email == null)
+                    @if (Auth::user()->account_type == 'osh')
+                        <td class="p-3 border border-r border-gray-50">
+                            @if ($incident->assigned_to_email == null)
 
+                                <a class="inline-block px-6 py-0 text-xs font-medium leading-6 text-center text-green-500 uppercase transition bg-transparent border-2 border-green-500 rounded ripple hover:bg-green-100 focus:outline-none"
+                                    href="{{ url("/incidents/{$incident->id}/edit") }}#assign">
+                                    Assign
+                                </a>
+                            @else
+                                {{ $incident->assigned_to_name }}
+                            @endif
+
+                        </td>
+
+                        <td class="p-3 border border-r border-gray-50">
                             <a class="inline-block px-6 py-0 text-xs font-medium leading-6 text-center text-green-500 uppercase transition bg-transparent border-2 border-green-500 rounded ripple hover:bg-green-100 focus:outline-none"
-                                href="{{ url("/incidents/{$incident->id}/edit") }}#assign">
-                                Assign
+                                href="{{ url("/incidents/{$incident->id}") }}">
+                                View
                             </a>
-                        @else
-                            {{ $incident->assigned_to_name }}
-                        @endif
-
-                    </td>
-
-                    <td class="p-3 border border-r border-gray-50">
-                        <a class="inline-block px-6 py-0 text-xs font-medium leading-6 text-center text-green-500 uppercase transition bg-transparent border-2 border-green-500 rounded ripple hover:bg-green-100 focus:outline-none"
-                            href="{{ url("/incidents/{$incident->id}") }}">
-                            View
-                        </a>
-                    </td>
+                        </td>
+                    @endif
                     @if ($incident->finalized)
                         <td class="p-3 border border-r border-gray-50 bg-green-200">
                         @else
@@ -107,6 +114,14 @@
                     @else
                         No
                     @endif
+                    </td>
+                    <td>
+
+                        <button wire:click="deleteIncident({{ $incident->id }})"
+                        class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-red-500 rounded shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none"
+                      >
+                        Delete
+                      </button>
                     </td>
                 </tr>
             @endforeach

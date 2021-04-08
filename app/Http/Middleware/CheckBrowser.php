@@ -19,11 +19,13 @@ class CheckBrowser
     {
         $agent = new Agent();
         $browser = $agent->browser();
+
         if (!$request->is('browser')) {
-            //dd($browser);
+
             if (!in_array($browser, ['Firefox', 'Chrome'])) {
                 return redirect('browser');
             }
+
         }
 
 

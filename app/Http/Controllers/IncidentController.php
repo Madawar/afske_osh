@@ -67,10 +67,6 @@ class IncidentController extends Controller
      */
     public function edit($id)
     {
-        $agent = new Agent();
-        if ($agent->browser() != "Firefox" or $agent->browser() != "Chrome") {
-            return "Please use Chrome or Firefox";
-        }
         return view('view_report')->with(compact('id'));
     }
 

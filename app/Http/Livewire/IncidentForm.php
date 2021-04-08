@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Mail\IncidentClosed;
 use App\Mail\IncidentReviewFailed;
 use App\Mail\ManagerAssigned;
+use App\Mail\NewIncident;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Incident;
@@ -200,7 +201,8 @@ class IncidentForm extends Component
             'photos' => json_encode($this->images)
         ));
         $this->incident_id = $incident->id;
-        $this->message('This Incident <b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
+        Mail::to($this->reporter_email)->cc('osh@afske.aero')->send(new NewIncident($incident));
+        $this->message('This Incident <b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve, Please check your email if you want to edit your incident.');
     }
 
     public function updateReport()

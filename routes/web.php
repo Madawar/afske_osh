@@ -3,10 +3,14 @@
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InsightController;
+use App\Http\Controllers\ChecklistController;
+use App\Http\Controllers\AuditController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,14 +22,14 @@ use Jenssegers\Agent\Agent;
 |
 */
 
-Route::get('/', function () {
-    return view('form');
+Route::get('/', function (Request $request) {
+    $query = $request->query('edit', null);
+    return view('form', ['query' => $query]);
 });
 Route::get('/browser', function () {
     $agent = new Agent();
     $browser = $agent->browser();
-        return view('check_browser')->with(compact('browser'));
-
+    return view('check_browser')->with(compact('browser'));
 });
 Route::get('/auto_login/{email}/{id}', function ($email, $id) {
     $user = User::where('email', $email)->first();
@@ -41,4 +45,8 @@ require __DIR__ . '/auth.php';
 Route::resource('incidents', IncidentController::class)->middleware('auth');
 
 Route::resource('department', DepartmentController::class)->middleware('auth');
+Route::resource('checklist', ChecklistController::class)->middleware('auth');
 Route::resource('insight', InsightController::class)->middleware('auth');
+Route::resource('audit', AuditController::class)->middleware('auth');
+Route::resource('users', UserController::class)->middleware('auth');
+Route::get('/audit/{id}/review', [AuditController::class, 'review'])->name('audit.review');
