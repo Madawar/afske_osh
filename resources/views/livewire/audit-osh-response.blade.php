@@ -9,7 +9,7 @@
                     '0' => 'Not Okay',
                     ]; ?>
                 <x-forms.t-select label="Is Review Okay" placeholder="Is Review Okay"
-                    name="item.root_cause_correction_review" :options="$levels" />
+                    name="item.closed" :options="$levels" />
             </div>
             <div class="flex-auto">
                 <x-forms.t-textarea label="OSH Department Remarks"

@@ -41,6 +41,7 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('audit.assign', $audit->id) }}" class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Assign Audit to {{ $audit->audited->name }}For CLosure</a>
 
 
 

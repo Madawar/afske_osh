@@ -26,7 +26,7 @@ class AddSoftDeleteToIncidents extends Migration
     public function down()
     {
         Schema::table('incidents', function (Blueprint $table) {
-            $table->json('evidence')->nullable();
+
             $table->softDeletes();
         });
     }

@@ -12,6 +12,7 @@ class AuditOshResponse extends Component
     protected $rules = [
         'item.item' => 'required',
         'item.response' => '',
+        'item.closed' => '',
         'item.finding' => '',
         'item.root_cause' => '',
         'item.root_cause_correction' => '',

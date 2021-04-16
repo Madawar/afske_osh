@@ -3,6 +3,7 @@
     @include('livewire.incident_sections.personal_details')
     @include('livewire.incident_sections.incident_details')
     @include('livewire.incident_sections.photos')
+
     @include('livewire.incident_sections.equipment_details')
     @include('livewire.incident_sections.injury_details')
 

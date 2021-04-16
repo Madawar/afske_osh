@@ -20,6 +20,7 @@ class CreateChecklistItemsTable extends Migration
             $table->text('item');
             $table->string('subcategory')->nullable();
             $table->string('required_response');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

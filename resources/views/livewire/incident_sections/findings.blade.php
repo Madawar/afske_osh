@@ -14,9 +14,9 @@
     </div>
 
 
-    <div class="flex flex-auto flex-col md:flex-row md:space-x-5  p-2 ">
-        <div class="flex-auto flex-col">
-            <div class="flex flex-col">
+    <div class="flex flex-auto flex-col   p-2 ">
+        <div class="flex flex-row flex-auto  md:space-x-5 ">
+            <div class="flex flex-col flex-auto">
                 <label class="leading-loose">Root Cause:</label>
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <textarea placeholder="Root Cause" rows="4" wire:model="root_cause"
@@ -24,7 +24,7 @@
                     @error('root_cause') <div class="text-red-600">{{ $message }}</div> @enderror
                 </div>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col flex-auto">
                 <label class="leading-loose">Corrective Action:</label>
                 <div class=" focus-within:text-gray-600 text-gray-400">
                     <textarea placeholder="Corrective Actions" rows="4" wire:model="corrective_action"
@@ -33,6 +33,9 @@
                 </div>
             </div>
         </div>
+
+
+
 
         <div class="flex-auto flex-col">
             <div class="flex flex-col">
@@ -43,6 +46,10 @@
                     @error('findings') <div class="text-red-600">{{ $message }}</div> @enderror
                 </div>
             </div>
+
+            <div class="flex flex-row">
+                @include('livewire.incident_sections.evidence')
+             </div>
 
 
             <div class="flex flex-col">

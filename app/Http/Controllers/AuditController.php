@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AuditTemplateExport;
+use App\Mail\AuditFindingsAssigned;
+use App\Mail\AuditFindingsClosed;
+use App\Mail\AuditFindingsReviewFailed;
 use App\Models\Audit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Excel;
+use Illuminate\Support\Facades\Mail;
 
 class AuditController extends Controller
 {
@@ -81,6 +86,57 @@ class AuditController extends Controller
         }])->where('id', $id)->first();
         //return Excel::download(new AuditTemplateExport($audit->id), 'invoices.xlsx');
         return view('audit.review_audit')->with(compact('audit'));
+    }
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function assign($id)
+    {
+        $audit = Audit::with(['AuditItems' => function ($query) {
+            return $query->where('non_conformity', 1);
+        }])->where('id', $id)->first();
+        $user = User::find($audit->auditee);
+        Mail::to($user->email)->send(new AuditFindingsAssigned($audit, $user));
+        return back();
+    }
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function close($id)
+    {
+        $audit = Audit::with(['AuditItems' => function ($query) {
+            return $query->where('non_conformity', 1);
+        }])->where('id', $id)->first();
+        $user = User::find($audit->auditee);
+        Mail::to('osh@afske.aero')->send(new AuditFindingsClosed($audit, $user));
+        return back();
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function oshreview($id)
+    {
+        $audit = Audit::whereHas('AuditItems' ,function ($query) {
+            return $query->where('non_conformity', 1,)->where('closed',0);
+        })->where('id', $id)->first();
+        if($audit){
+            $user = User::find($audit->auditee);
+            Mail::to($user->email)->send(new AuditFindingsReviewFailed($audit, $user));
+        }else{
+
+        }
+
+        return back();
     }
 
     /**

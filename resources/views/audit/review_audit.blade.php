@@ -34,12 +34,25 @@
                     </tr>
                     @foreach ($item as $ll)
                         @livewire('audit-response',['item'=>$ll])
-                        @livewire('audit-osh-response',['item'=>$ll])
+                        @if (Auth::user()->account_type == 'osh')
+                            @livewire('audit-osh-response',['item'=>$ll])
+                        @endif
                     @endforeach
 
                 @endforeach
             </tbody>
         </table>
+        @if (Auth::user()->account_type == 'osh')
+
+        <a href="{{ route('audit.oshreview', $audit->id) }}" class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Respond to Auditee</a>
+
+
+        @else
+
+        <a href="{{ route('audit.close', $audit->id) }}" class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Close Out Items</a>
+
+
+        @endif
 
 
 

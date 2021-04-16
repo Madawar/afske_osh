@@ -14,11 +14,13 @@
 
 <body class="">
     @include('layouts.header')
-    <div class="container mx-auto my-5 border-2  border-gray-50">
+
+    <div class=" mx-auto  border-2  border-gray-50">
         <div class="grid md:grid-cols-5 md:divide-x divide-gray divide-opacity-25 ">
                @include('layouts.sidebar')
 
             <div class="p-2 col-span-4">
+
                 @yield('content')
             </div>
 

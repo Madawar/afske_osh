@@ -24,6 +24,7 @@ class CreateAuditsTable extends Migration
             $table->text('interviewed')->nullable();
             $table->text('other_details')->nullable();
             $table->bigInteger('checklistId')->unsigned();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

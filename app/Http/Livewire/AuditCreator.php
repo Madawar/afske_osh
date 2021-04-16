@@ -68,6 +68,7 @@ class AuditCreator extends Component
             $items_array[] = new AuditItem(['checklist_id' => $item->id, 'item' => $item->item, 'subcategory' => $item->subcategory, 'required_response' => $item->required_response]);
         }
         $audit->AuditItems()->saveMany($items_array);
+        redirect()->route('audit.edit',['audit'=>$audit->id]);
     }
 
     public function updateAudit($id)

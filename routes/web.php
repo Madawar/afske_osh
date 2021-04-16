@@ -31,10 +31,14 @@ Route::get('/browser', function () {
     $browser = $agent->browser();
     return view('check_browser')->with(compact('browser'));
 });
-Route::get('/auto_login/{email}/{id}', function ($email, $id) {
+Route::get('/auto_login/{email}/{id}', function (Request $request, $email, $id) {
     $user = User::where('email', $email)->first();
     Auth::loginUsingId($user->id);
-    return redirect('/incidents/' . $id);
+    if ($request->type == 'audit') {
+        return redirect('/audit/' . $id . '/review');
+    } else {
+        return redirect('/incidents/' . $id);
+    }
 });
 
 Route::get('/dashboard', function () {
@@ -50,3 +54,6 @@ Route::resource('insight', InsightController::class)->middleware('auth');
 Route::resource('audit', AuditController::class)->middleware('auth');
 Route::resource('users', UserController::class)->middleware('auth');
 Route::get('/audit/{id}/review', [AuditController::class, 'review'])->name('audit.review');
+Route::get('/audit/{id}/assign', [AuditController::class, 'assign'])->name('audit.assign');
+Route::get('/audit/{id}/close', [AuditController::class, 'close'])->name('audit.close');
+Route::get('/audit/{id}/close_review', [AuditController::class, 'oshreview'])->name('audit.oshreview');

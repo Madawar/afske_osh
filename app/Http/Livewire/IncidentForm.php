@@ -22,6 +22,8 @@ class IncidentForm extends Component
     use WithFileUploads;
 
     public $photos = [];
+    public $evidenceFiles = [];
+    public $evidence = [];
     public $images = [];
 
     public $date;
@@ -92,7 +94,9 @@ class IncidentForm extends Component
         'cost' => '',
         'risk_level' => '',
         'review_of_root_cause' => '',
-        'finalized' => ''
+        'finalized' => '',
+        'evidence'=>'',
+        'evidenceFiles'=>'',
 
     ];
 
@@ -109,7 +113,6 @@ class IncidentForm extends Component
 
     public function render($id = null)
     {
-
         $departments = Department::all();
         return view('livewire.incident-form')->with(compact('departments'));
     }
@@ -142,6 +145,8 @@ class IncidentForm extends Component
         $this->review_of_root_cause = $incident->review_of_root_cause;
         $this->finalized = $incident->finalized;
         $this->vehicles = json_decode($incident->vehicles);
+        $this->evidence = json_decode($incident->evidence);
+
 
         if ($this->vehicles != null) {
             foreach ($this->vehicles as $key => $value) {
@@ -175,6 +180,7 @@ class IncidentForm extends Component
             'location' => 'required',
             'incident_type' => 'required',
             'flight' => '',
+            'evidence' => '',
             'operational_impact' => '',
             'narration' => 'required|min:50',
             'immediate_corrective_action' => 'required|min:50',
@@ -198,7 +204,8 @@ class IncidentForm extends Component
             'immediate_corrective_action' => $this->immediate_corrective_action,
             'vehicles' => json_encode($this->vehicles),
             'staff' => json_encode($this->staff),
-            'photos' => json_encode($this->images)
+            'photos' => json_encode($this->images),
+            'evidence' => json_encode($this->evidence)
         ));
         $this->incident_id = $incident->id;
         Mail::to($this->reporter_email)->cc('osh@afske.aero')->send(new NewIncident($incident));
@@ -218,6 +225,7 @@ class IncidentForm extends Component
             'location' => 'required',
             'incident_type' => 'required',
             'flight' => '',
+            'evidence' => '',
             'operational_impact' => '',
             'narration' => 'required|min:50',
             'immediate_corrective_action' => 'required|min:50',
@@ -243,7 +251,8 @@ class IncidentForm extends Component
             'immediate_corrective_action' => $this->immediate_corrective_action,
             'vehicles' => json_encode($this->vehicles),
             'staff' => json_encode($this->staff),
-            'photos' => json_encode($this->images)
+            'photos' => json_encode($this->images),
+            'evidence' => json_encode($this->evidence)
         ));
         $this->incident_id = $incident->id;
         $this->message('This Incident :<b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
@@ -330,6 +339,19 @@ class IncidentForm extends Component
             $extension = explode('/', $uploadedFile);
             $filename = end($extension);
             $this->images[] = $filename;
+        }
+    }
+
+    public function saveEvidence(){
+        $this->validate([
+            'evidenceFiles.*' => 'max:5024', // 1MB Max
+        ]);
+
+        foreach ($this->evidenceFiles as $evidence) {
+            $uploadedFile =  $evidence->store('public/evidence');
+            $extension = explode('/', $uploadedFile);
+            $filename = end($extension);
+            $this->evidence[] = $filename;
         }
     }
     public function addVehicle()

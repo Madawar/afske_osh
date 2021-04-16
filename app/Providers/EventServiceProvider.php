@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Audit;
 use App\Models\Incident;
+use App\Observers\AuditObserver;
 use App\Observers\IncidentObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,5 +32,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Incident::observe(IncidentObserver::class);
+        Audit::observe(AuditObserver::class);
     }
 }
