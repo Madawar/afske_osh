@@ -5,6 +5,9 @@
     ?>
     <div class="my-2 flex sm:flex-row flex-col justify-center bg-gray-100 p-2 shadow-sm">
         <div class="flex flex-row mb-1 sm:mb-0">
+
+
+
             <div class="relative">
                 <select wire:model="pagination"
                     class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -62,10 +65,13 @@
                     class="pr-5 pl-5  border-r border-t border-gray-300 cursor-pointer">Type</th>
                     @if (Auth::user()->account_type == 'osh')
                 <th wire:click.prevent="sortBy('assigned_to_name')"  class="pr-5 pl-5 border-r border-t border-gray-300 cursor-pointer">Assigned To</th>
+                @endif
                 <th class="pr-5 pl-5 border-r border-t border-gray-300">View</th>
-                 @endif
+
                 <th class="pr-5 pl-5  border-r border-t border-gray-300">Finalized?</th>
+                @if (Auth::user()->account_type == 'osh')
                  <th class="pr-5 pl-5  border-r border-t border-gray-300">Delete</th>
+                 @endif
             </tr>
         </thead>
         <tbody>
@@ -96,14 +102,14 @@
                             @endif
 
                         </td>
-
+                        @endif
                         <td class="p-3 border border-r border-gray-50">
                             <a class="inline-block px-6 py-0 text-xs font-medium leading-6 text-center text-green-500 uppercase transition bg-transparent border-2 border-green-500 rounded ripple hover:bg-green-100 focus:outline-none"
                                 href="{{ url("/incidents/{$incident->id}") }}">
                                 View
                             </a>
                         </td>
-                    @endif
+
                     @if ($incident->finalized)
                         <td class="p-3 border border-r border-gray-50 bg-green-200">
                         @else
@@ -115,6 +121,7 @@
                         No
                     @endif
                     </td>
+                    @if (Auth::user()->account_type == 'osh')
                     <td>
 
                         <button wire:click="deleteIncident({{ $incident->id }})"
@@ -123,6 +130,7 @@
                         Delete
                       </button>
                     </td>
+                    @endif
                 </tr>
             @endforeach
 
@@ -133,5 +141,14 @@
     <div class="pt-4">
         {{ $incidents->links() }}
     </div>
+    <hr/>
+    <a href="/incidents?download=true" class="btn mt-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        Download Incidents
+
+    </a>
+
 
 </div>

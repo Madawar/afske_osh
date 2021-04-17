@@ -5,6 +5,7 @@
     ?>
     <div class="my-2 flex sm:flex-row flex-col justify-center bg-gray-100 p-2 shadow-sm">
         <div class="flex flex-row mb-1 sm:mb-0">
+
             <div class="relative">
                 <select wire:model="pagination"
                     class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
