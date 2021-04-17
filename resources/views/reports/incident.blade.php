@@ -1,11 +1,4 @@
-<style>
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-
-</style>
+<?use Illuminate\Support\Str;?>
 <table class="table-auto w-full">
     <thead>
         <tr class="bg-gray-400">
@@ -58,11 +51,11 @@
                 <td style="border: 1px solid black;"> {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }} </td>
                 <td style="border: 1px solid black;"> {{ $incident->location }} </td>
                 <td style="border: 1px solid black;"> {{ $incident->incident_type }} </td>
-                <td style="border: 1px solid black;"> {{ $incident->narration }} </td>
-                <td style="border: 1px solid black;"> {{ $incident->immediate_corrective_action }} </td>
-                <td style="border: 1px solid black;"> {{ $incident->root_cause }} </td>
-                <td style="border: 1px solid black;"> {{ $incident->corrective_action }} </td>
-                <td style="border: 1px solid black;"> {{ $incident->findings }} </td>
+                <td style="border: 1px solid black;"> {{ Str::limit($incident->narration, 90) }} </td>
+                <td style="border: 1px solid black;"> {{Str::limit($incident->immediate_corrective_action, 90)  }} </td>
+                <td style="border: 1px solid black;"> {{Str::limit($incident->root_cause, 90)  }} </td>
+                <td style="border: 1px solid black;"> {{Str::limit($incident->corrective_action, 90)   }} </td>
+                <td style="border: 1px solid black;"> {{Str::limit($incident->findings, 90)   }} </td>
             </tr>
 
 

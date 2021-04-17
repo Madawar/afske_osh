@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Exports\IncidentExport;
 use App\Models\Incident;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use PDF;
 use Jenssegers\Agent\Agent;
 use Excel;
+
 class IncidentController extends Controller
 {
     /**
@@ -19,8 +21,9 @@ class IncidentController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->download == true){
-            return Excel::download(new IncidentExport(), 'invoices.xlsx');
+        if ($request->download == true) {
+            $file = 'Incidents_as_at_' . Carbon::now()->format('j_M_y') . '.xlsx';
+            return Excel::download(new IncidentExport(), $file);
         }
 
         return view('view_incidents');
