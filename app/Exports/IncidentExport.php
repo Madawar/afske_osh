@@ -19,7 +19,7 @@ class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, Wit
 
     public function view(): View
     {
-        $incidents = Incident::with('department.owner')->get();
+        $incidents = Incident::with('department.owner')->orderBy('created_at','DESC')->orderBy('finalized','ASC')->get();
         return view('reports.incident', [
             'incidents' => $incidents
         ]);
@@ -34,6 +34,8 @@ class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, Wit
             'I' => 45,
             'J' => 45,
             'K' => 45,
+            'L' => 45,
+            'M' => 45,
 
         ];
     }
@@ -45,6 +47,8 @@ class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, Wit
         $sheet->getStyle('I')->getAlignment()->setWrapText(true);
         $sheet->getStyle('J')->getAlignment()->setWrapText(true);
         $sheet->getStyle('K')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('L')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('M')->getAlignment()->setWrapText(true);
 
         return [
             // Style the first row as bold text.
