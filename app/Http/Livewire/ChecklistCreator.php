@@ -57,5 +57,12 @@ class ChecklistCreator extends Component
             'subcategory' => $this->subcategory,
             'required_response' => $this->required_response
         ));
+        $this->item = "";
+        $this->subcategory = "";
+        $this->required_response = "";
+    }
+    public function deleteChecklistItem($id)
+    {
+        ChecklistItem::destroy($id);
     }
 }

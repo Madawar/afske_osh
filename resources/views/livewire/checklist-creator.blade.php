@@ -41,6 +41,7 @@
                         <tr class="bg-gray-400">
                             <th class="pr-5 pl-5 border-r border-t border-l border-gray-300">CheckList Item</th>
                             <th class="pr-5 pl-5  border-r border-t border-gray-300">Response</th>
+                            <th class="pr-5 pl-5  border-r border-t border-gray-300">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,12 +49,20 @@
                             @foreach ($list->ChecklistItems->groupBy('subcategory') as $key => $item)
                                 <tr>
                                     <td class="p-1 border border-r border-gray-50 text-center bg-blue-700 text-white"
-                                        colspan="2">{{ $key }}</td>
+                                        colspan="3">{{ $key }}</td>
                                 </tr>
                                 @foreach ($item as $ll)
                                     <tr class=>
                                         <td class="p-3 border border-r border-gray-50">{{ $ll->item }}</td>
-                                        <td class="p-3 border border-r border-gray-50">{{ $ll->required_response }}
+                                        <td class="p-3 border border-r border-gray-50">
+                                            @if ($ll->required_response)
+                                                Yes
+                                            @else
+                                                No
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-error" wire:click="deleteChecklistItem({{$ll->id}})">Remove Item</button>
                                         </td>
 
                                     </tr>
