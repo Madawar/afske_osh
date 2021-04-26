@@ -14,7 +14,7 @@ class IncidentObserver
      */
     public function created(Incident $incident)
     {
-        $count = Incident::count();
+        $count = Incident::withTrashed()->count();
         $incident->incident_no = 'INC'.$count++;
         $incident->save();
     }
