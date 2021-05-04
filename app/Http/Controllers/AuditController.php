@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AuditTemplateExport;
+use App\Models\AuditItem;
 use App\Mail\AuditFindingsAssigned;
 use App\Mail\AuditFindingsClosed;
 use App\Mail\AuditFindingsReviewFailed;
@@ -11,6 +12,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Excel;
 use Illuminate\Support\Facades\Mail;
+
+use function PHPUnit\Framework\isNull;
 
 class AuditController extends Controller
 {
@@ -63,11 +66,11 @@ class AuditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,Request $request)
+    public function edit($id, Request $request)
     {
         $audit = Audit::with(['AuditItems' => function ($query) {
         }])->where('id', $id)->first();
-        if($request->print == 1){
+        if ($request->print == 1) {
             return Excel::download(new AuditTemplateExport($audit->id), 'invoices.xlsx');
         }
         return view('audit.edit_audit')->with(compact('audit'));
@@ -87,7 +90,19 @@ class AuditController extends Controller
         //return Excel::download(new AuditTemplateExport($audit->id), 'invoices.xlsx');
         return view('audit.review_audit')->with(compact('audit'));
     }
-     /**
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function reviewBox($id)
+    {
+        $audit = AuditItem::where('id', $id)->first();
+        //return Excel::download(new AuditTemplateExport($audit->id), 'invoices.xlsx');
+        return view('audit.reviewBox')->with(compact('audit'));
+    }
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -98,11 +113,20 @@ class AuditController extends Controller
         $audit = Audit::with(['AuditItems' => function ($query) {
             return $query->where('non_conformity', 1);
         }])->where('id', $id)->first();
+
+        //Assign Capa Number
+        foreach ($audit->AuditItems as $key => $item) {
+           // dd($item->capa_number);
+            if (isNull($item->capa_number)) {
+                $item->capa_number = $audit->audit_no . '/C/' . $key;
+                $item->save();
+            }
+        }
         $user = User::find($audit->auditee);
         Mail::to($user->email)->send(new AuditFindingsAssigned($audit, $user));
         return back();
     }
-     /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -118,7 +142,7 @@ class AuditController extends Controller
         return back();
     }
 
-        /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -126,14 +150,13 @@ class AuditController extends Controller
      */
     public function oshreview($id)
     {
-        $audit = Audit::whereHas('AuditItems' ,function ($query) {
-            return $query->where('non_conformity', 1,)->where('closed',0);
+        $audit = Audit::whereHas('AuditItems', function ($query) {
+            return $query->where('non_conformity', 1,)->where('closed', 0);
         })->where('id', $id)->first();
-        if($audit){
+        if ($audit) {
             $user = User::find($audit->auditee);
             Mail::to($user->email)->send(new AuditFindingsReviewFailed($audit, $user));
-        }else{
-
+        } else {
         }
 
         return back();

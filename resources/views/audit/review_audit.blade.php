@@ -33,7 +33,17 @@
                             {{ $key }}</td>
                     </tr>
                     @foreach ($item as $ll)
-                        @livewire('audit-response',['item'=>$ll])
+                        <tr>
+                            <td class="p-3 border border-r border-gray-50">{{ $ll->item }}</td>
+                            <td class="p-3 border border-r border-gray-50">{{ $ll->finding }}</td>
+                            <td class="p-3 border border-r border-gray-50">{{ $ll->root_cause }}</td>
+                            <td class="p-3 border border-r border-gray-50">{{ $ll->root_cause_correction }}</td>
+                            <td class="p-3 border border-r border-gray-50">
+                                <button onClick="open_view({{ $ll->id }})" class="btn btn-success">Close Item</button>
+                            </td>
+
+                        </tr>
+
                         @if (Auth::user()->account_type == 'osh')
                             @livewire('audit-osh-response',['item'=>$ll])
                         @endif
@@ -44,17 +54,41 @@
         </table>
         @if (Auth::user()->account_type == 'osh')
 
-        <a href="{{ route('audit.oshreview', $audit->id) }}" class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Respond to Auditee</a>
+            <a href="{{ route('audit.oshreview', $audit->id) }}"
+                class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Respond
+                to Auditee</a>
 
 
         @else
 
-        <a href="{{ route('audit.close', $audit->id) }}" class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Close Out Items</a>
+            <a href="{{ route('audit.close', $audit->id) }}"
+                class="w-full inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none">Close
+                Out Items</a>
 
 
         @endif
 
-
+        <div id="backstore" style="display: none">
+            <div id="content">
+                @livewire('checklist-creator',['checklist_id'=>null])
+            </div>
+        </div>
 
     </div>
+@endsection
+
+@section('jquery')
+    <script>
+        function open_view(clicked_id) {
+            new WinBox("Close Audit Item", {
+                url: "/audit_box/" + clicked_id + "/review",
+                x: "center",
+                y: "center",
+                width: "80%",
+                height: "80%"
+            });
+        }
+
+    </script>
+
 @endsection

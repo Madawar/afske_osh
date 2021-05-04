@@ -4,4 +4,5 @@
 @import 'modal.css';
 @import 'flatpickr.css';
 @import 'Chart.min.css';
+@import '../../node_modules/winbox/dist/css/winbox.min.css';
 

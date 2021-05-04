@@ -1,25 +1,10 @@
-
-    @if ($item->non_conformity == 1)
-        <tr class="bg-red-200">
-        @else
-        <tr class="">
-    @endif
-    <td class="p-3 border border-r border-gray-50 prose w-64">{{ $item->item }}</td>
-    <td class="p-3 border border-r border-gray-50 prose w-64">{{ $item->finding }}</td>
-    <td class="p-3 border border-r border-gray-50 w-64">
-        <x-forms.t-textarea label="" placeholder="Root Cause" name="item.root_cause" />
-    </td>
-    <td class="p-3 border border-r border-gray-50 w-64">
-        <x-forms.t-textarea label="" placeholder="Root Cause Correction" name="item.root_cause_correction" />
-    </td>
-
-
-
-
-    <td class="p-3 border border-r border-gray-50 w-20">
-
-    </td>
-
-    </tr>
-
-
+<div class="p-2">
+    <h1 class="leading-loose">{{ $item->item }}</h1>
+    <hr class="mt-1 mb-1"/>
+    <h2>Finding : <b>{{ $item->finding}}</b></h2>
+    <hr class="mt-1 mb-1"/>
+    <x-forms.t-textarea label="Root Cause" placeholder="Root Cause" name="item.root_cause" />
+    <x-forms.t-textarea label="Root Cause Correction" placeholder="Root Cause Correction" name="item.root_cause_correction" />
+    <x-forms.t-textarea label="Close Gap" placeholder="Close Gap" name="item.close_gap" />
+    @include('livewire.incident_sections.evidence')
+</div>

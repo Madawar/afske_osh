@@ -54,6 +54,7 @@ Route::resource('insight', InsightController::class)->middleware('auth');
 Route::resource('audit', AuditController::class)->middleware('auth');
 Route::resource('users', UserController::class)->middleware('auth');
 Route::get('/audit/{id}/review', [AuditController::class, 'review'])->name('audit.review');
+Route::get('/audit_box/{id}/review', [AuditController::class, 'reviewBox'])->name('audit.review_box');
 Route::get('/audit/{id}/assign', [AuditController::class, 'assign'])->name('audit.assign');
 Route::get('/audit/{id}/close', [AuditController::class, 'close'])->name('audit.close');
 Route::get('/audit/{id}/close_review', [AuditController::class, 'oshreview'])->name('audit.oshreview');
