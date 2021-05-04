@@ -15,10 +15,18 @@
             </tr>
         </table>
 
+        <div class="alert mt-2 mb-2">
+            <div class="flex-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3" class="w-6 h-6 mx-2">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!---->
+              </svg>
+              <label>Please Click on Close to fill out Root Cause,Root Cause and Close Gap</label>
+            </div>
+          </div>
         <table class="table-auto w-full">
             <thead>
                 <tr class="bg-gray-400">
-                    <th class="pr-5 pl-5 border-r border-t border-l border-gray-300 prose">Audit Item</th>
+
                     <th class="pr-5 pl-5  border-r border-t border-gray-300 prose">Finding Remarks</th>
                     <th class="pr-5 pl-5  border-r border-t border-gray-300 prose">Root Cause</th>
                     <th class="pr-5 pl-5  border-r border-t border-gray-300 prose">Root Cause Correction</th>
@@ -33,13 +41,20 @@
                             {{ $key }}</td>
                     </tr>
                     @foreach ($item as $ll)
+                    <tr>
+                        <td class="p-1 border border-r border-gray-50 text-left bg-gray-400 text-red-800" colspan="7">
+                          <b>{{$loop->index+1}} : </b>  <span class="leading-relaxed">{{ $ll->item }}</span>
+
+                        </td>
+                    </tr>
                         <tr>
-                            <td class="p-3 border border-r border-gray-50">{{ $ll->item }}</td>
+
                             <td class="p-3 border border-r border-gray-50">{{ $ll->finding }}</td>
                             <td class="p-3 border border-r border-gray-50">{{ $ll->root_cause }}</td>
                             <td class="p-3 border border-r border-gray-50">{{ $ll->root_cause_correction }}</td>
                             <td class="p-3 border border-r border-gray-50">
-                                <button onClick="open_view({{ $ll->id }})" class="btn btn-success">Close Item</button>
+                                <button onClick="open_view({{ $ll->id }})" class="btn btn-success">Close</button>
+
                             </td>
 
                         </tr>
