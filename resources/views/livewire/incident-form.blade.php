@@ -25,7 +25,7 @@
 
         </div>
     @elseif( Auth::check())
-        @if (Auth::user()->account_type == 'osh')
+
             <div class="grid justify-items-stretch">
                 <div class="justify-self-center">
                     <button wire:click="updateReport"
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+
     @else
         <div class="grid justify-items-stretch">
             <div class="justify-self-center">
