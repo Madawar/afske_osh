@@ -15,4 +15,9 @@ class Department extends Model
     {
         return $this->hasOne(User::class,'id','manager_id');
     }
+
+    public function Incidents()
+    {
+        return $this->hasMany(Incident::class);
+    }
 }

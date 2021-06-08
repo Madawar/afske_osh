@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AmendClosureDate;
 use App\Console\Commands\SendClosureReminder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        SendClosureReminder::class
+        SendClosureReminder::class,
+        AmendClosureDate::class
     ];
 
     /**
@@ -26,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-         $schedule->command('Incidents:remind')->dailyAt('16:00');
+       //  $schedule->command('Incidents:remind')->dailyAt('16:00');
     }
 
     /**

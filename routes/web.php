@@ -6,11 +6,13 @@ use App\Http\Controllers\InsightController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +23,9 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
 
 Route::get('/', function (Request $request) {
     $query = $request->query('edit', null);
@@ -49,6 +54,7 @@ require __DIR__ . '/auth.php';
 Route::resource('incidents', IncidentController::class)->middleware('auth');
 
 Route::resource('department', DepartmentController::class)->middleware('auth');
+Route::resource('report', ReportController::class)->middleware('auth');
 Route::resource('checklist', ChecklistController::class)->middleware('auth');
 Route::resource('insight', InsightController::class)->middleware('auth');
 Route::resource('audit', AuditController::class)->middleware('auth');
