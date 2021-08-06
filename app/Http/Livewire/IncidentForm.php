@@ -182,8 +182,8 @@ class IncidentForm extends Component
             'flight' => '',
             'evidence' => '',
             'operational_impact' => '',
-            'narration' => 'required|min:50',
-            'immediate_corrective_action' => 'required|min:50',
+            'narration' => 'required|min:10',
+            'immediate_corrective_action' => 'required|min:10',
             'telephone' => 'required|min:8'
 
         ]);
@@ -227,8 +227,8 @@ class IncidentForm extends Component
             'flight' => '',
             'evidence' => '',
             'operational_impact' => '',
-            'narration' => 'required|min:50',
-            'immediate_corrective_action' => 'required|min:50',
+            'narration' => 'required|min:10',
+            'immediate_corrective_action' => 'required|min:10',
             'telephone' => 'required|min:8'
 
         ]);
