@@ -49,25 +49,26 @@
 
             <div class="flex flex-row">
                 @include('livewire.incident_sections.evidence')
-             </div>
+            </div>
 
+            @if (Auth::user()->account_type != 'osh')
+                <div class="flex flex-col">
+                    <div class="grid justify-items-stretch">
+                        <div class="justify-self-center">
+                            <button wire:click="closeIncident({{ $incident_id }})"
+                                class="inline-block mt-16 px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
+                                Submit Findings and Evidence to OSH Department
+                            </button>
 
-            <div class="flex flex-col">
-                <div class="grid justify-items-stretch">
-                    <div class="justify-self-center">
-                        <button wire:click="closeIncident({{ $incident_id }})"
-                            class="inline-block mt-16 px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
-                            Submit Findings and Evidence to OSH Department
-                        </button>
+                            <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3"
+                                wire:loading wire:target="closeIncident">
+                                Closing Incident
+                            </div>
 
-                        <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3" wire:loading
-                            wire:target="closeIncident">
-                            Closing Incident
                         </div>
-
                     </div>
                 </div>
-            </div>
+            @endif
 
         </div>
 
