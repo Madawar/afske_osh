@@ -6,7 +6,15 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
+    darkMode: false, // or 'media' or 'class'
+    daisyui: {
+        styled: true,
+        themes: true,
+        base: true,
+        utils: true,
+        logs: true,
+        rtl: false,
+    },
     theme: {
         extend: {
             fontFamily: {
@@ -23,5 +31,5 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'),require('daisyui'),require('@tailwindcss/typography')],
+    plugins: [require('@tailwindcss/forms'), require('daisyui'), require('@tailwindcss/typography')],
 };

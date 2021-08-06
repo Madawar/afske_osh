@@ -100,11 +100,15 @@
                     @error('review_of_root_cause') <div class="error">{{ $message }}</div> @enderror
                 </div>
             </div>
-            <div class="flex flex-col">
-                <div class="justify-self-center">
+            <div class="flex flex-col mt-5">
+                <div class="grid justify-items-stretch">
                     <button wire:click="oshReview({{ $incident_id }})"
                         class="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none">
-                        Update Incident
+                        @if ($finalized == 1)
+                            Close Incident.
+                        @else
+                            Revert Incident for further action
+                        @endif
                     </button>
                     <div class="flex items-center bg-blue-900 text-white text-sm font-bold px-4 py-3" wire:loading
                         wire:target="oshReview">

@@ -331,7 +331,7 @@ class IncidentForm extends Component
     public function savePhoto()
     {
         $this->validate([
-            'photos.*' => 'image|max:2024', // 1MB Max
+            'photos.*' => 'max:2024', // 1MB Max
         ]);
 
         foreach ($this->photos as $photo) {

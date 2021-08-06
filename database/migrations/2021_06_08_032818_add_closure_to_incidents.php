@@ -14,7 +14,7 @@ class AddClosureToIncidents extends Migration
     public function up()
     {
         Schema::table('incidents', function (Blueprint $table) {
-            $table->date('closed_on')->nullable();
+            $table->timestamp('closed_on')->nullable();
         });
     }
 
