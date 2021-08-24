@@ -353,6 +353,7 @@ class IncidentForm extends Component
             $filename = end($extension);
             $this->evidence[] = $filename;
         }
+        $this->updateReport();
     }
     public function addVehicle()
     {
