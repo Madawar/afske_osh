@@ -108,6 +108,10 @@
                                 href="{{ url("/incidents/{$incident->id}") }}">
                                 View
                             </a>
+                            <a class="btn btn-sm btn-outline btn-accent "
+                            href="{{ url("incident/response/factor/{$incident->id}") }}">
+                           Close
+                        </a>
                         </td>
 
                     @if ($incident->finalized)

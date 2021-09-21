@@ -35,6 +35,7 @@ class IncidentFactory extends Factory
             'flight' => $this->faker->randomElement(['EK', 'BA', 'AI', 'SV']) . '0' . $this->faker->randomNumber(2, true),
             'department_id' => $this->faker->numberBetween(1,5),
             'incident_type' => $this->faker->randomElement(['Property damage incident', 'Vehicle incident', 'Employee Injury', 'Fire Incident']),
+            'assigned_to_email' => $this->faker->randomElement(['dwanyoike@codedcell.com', null, null, null]),
         ];
     }
 }

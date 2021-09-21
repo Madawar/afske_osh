@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+use App\Http\Livewire\Incident\Factor\IncidentFactorsManager;
+use App\Http\Livewire\Incident\Response\IncidentFactorsChoice;
+use App\Http\Livewire\Incident\Response\IncidentCorrective;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +62,9 @@ Route::resource('checklist', ChecklistController::class)->middleware('auth');
 Route::resource('insight', InsightController::class)->middleware('auth');
 Route::resource('audit', AuditController::class)->middleware('auth');
 Route::resource('users', UserController::class)->middleware('auth');
+Route::get('factor', IncidentFactorsManager::class)->middleware('auth');
+Route::get('incident/response/factor/{incident}', IncidentFactorsChoice::class)->middleware('auth');
+Route::get('incident/response/corrective/{incident}', IncidentCorrective::class)->name('corrective')->middleware('auth');
 Route::get('/audit/{id}/review', [AuditController::class, 'review'])->name('audit.review');
 Route::get('/audit_box/{id}/review', [AuditController::class, 'reviewBox'])->name('audit.review_box');
 Route::get('/audit/{id}/assign', [AuditController::class, 'assign'])->name('audit.assign');

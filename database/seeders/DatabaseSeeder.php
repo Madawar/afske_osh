@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(FactorSeeder::class);
         \App\Models\User::factory(10)->create();
         \App\Models\User::factory(1)->state([
             'email' => 'dwanyoike@codedcell.com',

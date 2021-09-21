@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html data-theme="cupcake" lang="en">
+<html data-theme="corporate" lang="en">
 
 <head>
     <meta charset="utf-8">
