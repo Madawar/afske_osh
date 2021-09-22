@@ -4,32 +4,35 @@
 
 <head>
     <meta charset="utf-8">
-    <title>{{env('APP_NAME')}}</title>
+    <title>{{ env('APP_NAME') }}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{{asset('/css/app.css')}}" rel="stylesheet">
-    <link rel="icon" href="{{asset('/alarm.ico')}}">
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('/alarm.ico') }}">
     @livewireStyles
 </head>
 
 <body class="">
     @include('layouts.header')
 
-    <div class=" mx-auto  border-2  border-gray-50">
-        <div class="grid md:grid-cols-5 md:divide-x divide-gray divide-opacity-25 ">
-               @include('layouts.sidebar')
+    <div class=" md:flex flex-col md:flex-row w-full h-screen" id="main-app">
+    @include('layouts.sidebar2')
+    <div class="w-full  ">
+        <div class="heading border-b border-gray-300 border-opacity-90 filter md:drop-shadow-sm bg-gray-50">
+            @section('main-heading')
 
-            <div class="p-2 col-span-4">
-
-                @yield('content')
-            </div>
+            @show
 
         </div>
+        <div class="p-2">
+            @yield('content')
+        </div>
+    </div>
 
     </div>
     @livewireScripts
-    <script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('js/plugins.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/plugins.js') }}"></script>
 
     @yield('jquery')
 </body>

@@ -1,6 +1,8 @@
 <div>
 
+    @include('reports.incident_report')
     @include('livewire.incident_sections.personal_details')
+
     @include('livewire.incident_sections.incident_details')
     @include('livewire.incident_sections.photos')
 

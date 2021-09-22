@@ -7,7 +7,9 @@ use Livewire\Component;
 use App\Traits\SearchTrait;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
-
+use Illuminate\Support\Str;
+use Excel;
+use App\Exports\IncidentExport;
 class IncidentList extends Component
 {
     use WithPagination;
@@ -27,6 +29,33 @@ class IncidentList extends Component
     {
         $query = Incident::query();
         $query = $query->with('department.owner');
+        $query = $this->query($query);
+        if ($this->pagination) {
+            $incidents = $query->paginate($this->pagination);;
+        } else {
+            $incidents = $query->paginate(10);
+        }
+
+
+        $options = array(
+            null => 'ALL',
+            1 => 'Closed Incidents',
+            'unassigned' => 'Not Assigned For Closure',
+            'review' => 'For OSH Review',
+            'unresponsive' => 'Unresponsive Incidents',
+            'deleted' => 'Deleted Incidents',
+            'toMe' => 'Assigned To Me',
+        );
+
+        return view('livewire.incident-list')->with(compact('incidents', 'options'));
+    }
+    public function deleteIncident($id)
+    {
+        Incident::destroy($id);
+    }
+
+    public function query($query)
+    {
         if ($this->filter) {
             if ($this->filter == "unassigned") {
                 $query->whereNull('assigned_to_email');
@@ -54,19 +83,18 @@ class IncidentList extends Component
         } else {
             $query =   $query->orWhere('reporter_email', Auth::user()->email)->orWhere('assigned_to_email', Auth::user()->email);
         }
-        if ($this->pagination) {
-            $incidents = $query->paginate($this->pagination);;
-        } else {
-            $incidents = $query->paginate(10);
-        }
-
-
-
-        return view('livewire.incident-list')->with(compact('incidents'));
+        return $query;
     }
-    public function deleteIncident($id)
-    {
-        Incident::destroy($id);
+
+    public function download(){
+        $query = Incident::query();
+        $query = $query->with('department.owner');
+        $records = $this->query($query)->get();
+        $file = Str::random(4).'.xlsx';
+        $file = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $file);
+        // Remove any runs of periods (thanks falstro!)
+        $file = mb_ereg_replace("([\.]{2,})", '', $file);
+        return Excel::download(new IncidentExport($records), $file);;
     }
 
     public function sortBy($name)

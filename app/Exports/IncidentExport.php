@@ -13,15 +13,16 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, WithStyles
 {
-    public function __construct()
+    public $collection;
+    public function __construct($collection)
     {
+        $this->collection = $collection;
     }
 
     public function view(): View
     {
-        $incidents = Incident::with('department.owner')->orderBy('created_at','DESC')->orderBy('finalized','ASC')->get();
         return view('reports.incident', [
-            'incidents' => $incidents
+            'incidents' => $this->collection
         ]);
     }
 

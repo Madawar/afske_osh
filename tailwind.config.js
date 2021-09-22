@@ -6,7 +6,7 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-    darkMode: false, // or 'media' or 'class'
+    darkMode: 'class', // or 'media' or 'class'
     daisyui: {
         styled: true,
         themes: true,
@@ -31,5 +31,5 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('daisyui'), require('@tailwindcss/typography')],
+    plugins: [require('postcss-import'),require('@tailwindcss/forms'), require('daisyui'), require('@tailwindcss/typography')],
 };
