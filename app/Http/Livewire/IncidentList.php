@@ -28,7 +28,7 @@ class IncidentList extends Component
     public function render()
     {
         $query = Incident::query();
-        $query = $query->with('department.owner');
+        $query = $query->with('department');
         $query = $this->query($query);
         if ($this->pagination) {
             $incidents = $query->paginate($this->pagination);;

@@ -1,114 +1,62 @@
-<div class="flex flex-col md:flex-row  flex-wrap md:divide-x divide-gray-50  border border-gray-300 mb-2">
-    <div class="flex-none w-72 bg-gray-50 border-r border-gray-300 ">
-        <h1 class="text-center underline leading-loose tracking-widest font-extrabold">Incident Details</h1>
-        <p class="font-sans p-2 leading-loose">
-            Hi <b>{{ explode(' ', $reporter)[0] }}</b>, <br />
-            A good Incident report should include the below : - <br />
-        <ol class="list-decimal ml-5 leading-loose">
-            <li>Type of incident (injury, near miss, property damage, or theft)</li>
-            <li>Location of Incident.</li>
-            <li>Date of incident.</li>
-            <li>Time of incident.</li>
-            <li>Name of affected individual.</li>
-            <li>A narrative description of the incident, including the sequence of events and results of the incident.
-            </li>
-        </ol>
-        </p>
+<div class="w-auto m-8 text-gray-800 bg-white divide-y divide-gray-300 rounded-lg shadow-md sm:m-4">
+    <div class="flex items-start px-6 py-5">
+        <h2 class="mr-auto">
+            <span class="block font-sans text-2xl font-semibold text-gray-900 ">Incident Details</span>
+            <span class="block font-light text-gray-800">Please Describe in Details the incident or hazard observed<span>
+        </h2>
     </div>
+    <div class=" px-6 py-4">
+        <div class="flex flex-col md:flex-row p-2 md:space-x-1 md:space-y-0 space-y-1 w-full">
 
+            <div class="flex-auto">
 
-    <div class="flex flex-auto flex-col md:flex-row space-x-5  p-2 ">
-        <div class="flex-auto">
-            <div class="flex flex-col">
-                <label class="leading-loose">Date: </label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <input type="text" placeholder="Date" wire:model="date"
-                        class="date pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('date') border-red-500 @enderror">
-                    @error('date') <div class="error">{{ $message }}</div> @enderror
-                </div>
+                <x-forms.input label="Date Of Incident" placeholder="Date Of Incident" wire:model="incident.date" class="date" name="incident.date" />
             </div>
-
-            <div class="flex flex-col">
-                <label class="leading-loose">Location:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <input type="text" placeholder="Location" wire:model="location"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('location') border-red-500 @enderror">
-                    @error('location') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
+            <div class="flex-auto">
+                <x-forms.input label="Time Of Incident" placeholder="Time Of Incident" wire:model="incident.time" class="time" name="incident.time" />
             </div>
+            <div class="flex-auto">
+                <x-forms.input label="Location Of Incident" placeholder="Location Of Incident" wire:model="incident.location"
+                    name="incident.location" />
 
-            <div class="flex flex-col">
-                <label class="leading-loose">Flight Affected:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <input type="text" placeholder="Flight Affected" wire:model="flight"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('flight') border-red-500 @enderror">
-                    @error('flight') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
-            </div>
-
-            <div class="flex flex-col">
-                <label class="leading-loose">Narration:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <textarea placeholder="Narration" rows="4" wire:model="narration"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('narration') border-red-500 @enderror"></textarea>
-                    @error('narration') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
             </div>
 
 
         </div>
-        <div class="flex-auto">
-            <div class="flex flex-col">
-                <label class="leading-loose">Time:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <input type="text" placeholder="Time" wire:model="time"
-                        class="time pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('time') border-red-500 @enderror">
-                    @error('time') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
-            </div>
 
-            <div class="flex flex-col">
-                <label class="leading-loose">Incident Type:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <select type="text" placeholder="Location" wire:model="incident_type"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('incident_type') border-red-500 @enderror">
-                        <option>Please Choose</option>
-                        <option value="MV Damage">MV Damage</option>
-                        <option value="Aircraft Damage">Aircraft Damage</option>
-                        <option value="Property Damage">Property Damage</option>
-                        <option value="Cargo Damage">Cargo Damage</option>
-                        <option value="Equipment Damage">Equipment Damage</option>
-                        <option value="Personal Injury">Personal Injury</option>
-                        <option value="Environmental Spillage">Environmental Spillage (Fuel,Oil,Toilet Waste,Hydraulic Waste)</option>
-                        <option value="Near Miss">Near Miss</option>
-                        <option value="Hazard">Hazard</option>
+        <div class="flex flex-col md:flex-row p-2 md:space-x-1 md:space-y-0 space-y-1 w-full">
 
-                    </select>
-                    @error('incident_type') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
+            <div class="flex-auto">
+                <!-- TODO Include Incident Types -->
+                <x-forms.select :options="$incident_types" label="Incident Type" placeholder="incident_type"
+                    wire:model="incident.incident_type" name="incident.incident_type" />
             </div>
-            <div class="flex flex-col">
-                <label class="leading-loose">Operational Impact:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <input type="text" placeholder="How Did the incident affect Operations?"
-                        wire:model="operational_impact"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('operational_impact') border-red-500 @enderror">
-                    @error('operational_impact') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
+            <div class="flex-auto">
+                <x-forms.input label="Flight Affected" placeholder="Flight Affected" wire:model="incident.flight"
+                    name="incident.flight" />
             </div>
-
-            <div class="flex flex-col">
-                <label class="leading-loose">Immediate Corrective Action:</label>
-                <div class=" focus-within:text-gray-600 text-gray-400">
-                    <textarea placeholder="Immediate Corrective Course" rows="4"
-                        wire:model="immediate_corrective_action"
-                        class="pr-4 pl-2 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300  focus:outline-none text-gray-600 @error('immediate_corrective_action') border-red-500 @enderror"></textarea>
-                    @error('immediate_corrective_action') <div class="text-red-600">{{ $message }}</div> @enderror
-                </div>
+            <div class="flex-auto">
+                <x-forms.input label="Operational Impact" placeholder="operational_impact"
+                    wire:model="incident.operational_impact" name="incident.operational_impact" />
             </div>
 
         </div>
 
+        <div class="flex flex-col md:flex-row p-2 md:space-x-1 md:space-y-0 space-y-1 w-full">
+
+            <div class="flex-auto">
+                <x-forms.textarea label="Narration Of Incident" placeholder="Narration Of Incident"
+                    wire:model="incident.narration" name="incident.narration" />
+            </div>
+
+        </div>
+        <div class="flex flex-col md:flex-row p-2 md:space-x-1 md:space-y-0 space-y-1 w-full">
+            <div class="flex-auto">
+                <x-forms.textarea label="Immediate Corrective Action Taken"
+                    placeholder="Immediate Corrective Action Taken" wire:model="incident.immediate_corrective_action"
+                    name="incident.immediate_corrective_action" />
+            </div>
+        </div>
 
     </div>
 

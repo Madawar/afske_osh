@@ -14,7 +14,7 @@ class AddSoftDeleteToIncidents extends Migration
     public function up()
     {
         Schema::table('incidents', function (Blueprint $table) {
-            $table->softDeletes();
+
         });
     }
 

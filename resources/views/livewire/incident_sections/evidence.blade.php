@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 <div class="flex flex-auto flex-col space-x-2  p-2 ">
     <div class="">
-        @if ($evidence)
+        @if ($this->incident->evidence)
             <table class="table-auto w-full border-collapse mt-1 mb-1">
                 <thead>
                     <th
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
                 </thead>
                 <tbody>
-                    @foreach ($evidence as $file)
+                    @foreach ($this->incident->evidence as $file)
                         <tr
                             class="bg-white  lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
                             <td

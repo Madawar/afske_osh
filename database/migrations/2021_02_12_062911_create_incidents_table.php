@@ -47,6 +47,7 @@ class CreateIncidentsTable extends Migration
             //Finalized
             $table->boolean('finalized')->default(0);
             $table->json('photos')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

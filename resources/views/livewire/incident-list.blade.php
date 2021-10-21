@@ -63,16 +63,20 @@
                         <td>
                             <a href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
                     <td>
-                          {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}  <!--<span
-                                class="
-
-                                text-sm">({{ Carbon\Carbon::parse($incident->date)->diffInDays(Carbon\Carbon::today()) }}
-                                days
-                                ago)--></span>
+                          {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}  <span
+                                class="  text-2xs">(Reported
+                                {{ Carbon\Carbon::parse($incident->created_at)->format('j-M-y') }})
+                                </span>
 
                         </td>
                         <td>{{ Str::limit($incident->reporter, 15) }}</td>
-                        <td>{{ $incident->department->name }}</td>
+                        <td>
+                            @isset($incident->department)
+                                {{ $incident->department->name }}
+                            @endisset
+
+
+                        </td>
                         <td>{{ Str::limit($incident->incident_type, 12) }}</td>
                         @if (Auth::user()->account_type == 'osh')
                             <td>
@@ -89,24 +93,43 @@
                             </td>
                         @endif
                         <td>
-                            <a class="btn  btn-square btn-xs btn-success"
-                                href="{{ url("/incidents/{$incident->id}") }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                </svg>
 
-                            </a>
+                                <a class="btn  btn-square btn-xs btn-success"
+                                    href="{{ url("/incidents/{$incident->id}") }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+
+                                </a>
+
                             <a class="btn  btn-square btn-xs btn-error "
                                 href="{{ url("incident/response/factor/{$incident->id}") }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
+                                <svg class="h-4 w-4 bg-white" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <style>
+                                            .cls-1 {
+                                                fill: none;
+                                                stroke: #000;
+                                                stroke-linejoin: round;
+                                                stroke-width: 2px;
+                                            }
+
+                                        </style>
+                                    </defs>
+                                    <title />
+                                    <g data-name="388-Browser Cancel" id="_388-Browser_Cancel">
+                                        <polyline class="cls-1" points="19 29 1 29 1 3 31 3 31 20" />
+                                        <line class="cls-1" x1="1" x2="31" y1="9" y2="9" />
+                                        <line class="cls-1" x1="4" x2="6" y1="6" y2="6" />
+                                        <line class="cls-1" x1="8" x2="10" y1="6" y2="6" />
+                                        <line class="cls-1" x1="23" x2="29" y1="22" y2="28" />
+                                        <line class="cls-1" x1="29" x2="23" y1="22" y2="28" />
+                                    </g>
+                                </svg>
+
+
                             </a>
                         </td>
 

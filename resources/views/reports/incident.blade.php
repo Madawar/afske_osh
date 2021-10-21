@@ -47,15 +47,24 @@
 
                 </td>
                 <td style="border: 1px solid black;">{{ $incident->reporter }} ({{ $incident->pno }})</td>
-                <td style="border: 1px solid black;">{{ $incident->department->name }} </td>
-                <td style="border: 1px solid black;"> {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }} </td>
+
+                <td style="border: 1px solid black;">
+                    @isset($incident->department)
+                        {{ $incident->department->name }}
+                    @endisset
+
+
+                </td>
+                <td style="border: 1px solid black;"> {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}
+                </td>
                 <td style="border: 1px solid black;"> {{ $incident->location }} </td>
                 <td style="border: 1px solid black;"> {{ $incident->incident_type }} </td>
                 <td style="border: 1px solid black;"> {{ Str::limit($incident->narration, 90) }} </td>
-                <td style="border: 1px solid black;"> {{Str::limit($incident->immediate_corrective_action, 90)  }} </td>
-                <td style="border: 1px solid black;"> {{Str::limit($incident->root_cause, 90)  }} </td>
-                <td style="border: 1px solid black;"> {{Str::limit($incident->corrective_action, 90)   }} </td>
-                <td style="border: 1px solid black;"> {{Str::limit($incident->findings, 90)   }} </td>
+                <td style="border: 1px solid black;"> {{ Str::limit($incident->immediate_corrective_action, 90) }}
+                </td>
+                <td style="border: 1px solid black;"> {{ Str::limit($incident->root_cause, 90) }} </td>
+                <td style="border: 1px solid black;"> {{ Str::limit($incident->corrective_action, 90) }} </td>
+                <td style="border: 1px solid black;"> {{ Str::limit($incident->findings, 90) }} </td>
             </tr>
 
 

@@ -5,9 +5,12 @@
             <li class="step step-info">Choose Contributing Factors</li>
             <li class="step ">Corrective Actions</li>
             <li class="step ">Preventive Actions</li>
-            <li data-content="?" class="step step-error">Close Incident</li>
-            </ul>
-        </div>
+
+        </ul>
+    </div>
+    <div class="alert alert-info">
+        Please Choose atleast one factor that caused this incident and click next, if it has been already chosen click next
+    </div>
     <table class="table table-compact table-zebra w-full">
         <thead>
 
@@ -25,8 +28,15 @@
                 @foreach ($factors as $factor_item)
                     <tr>
                         <td>
-                            <x-forms.checkbox label="" placeholder="Factor" value="true"
-                                wire:model="factor.{{ $factor_item->id }}" name="factor[]" />
+                            @if (in_array($factor_item->id, $existing_findings))
+                               <div class="badge badge-primary">Chosen</div>
+
+                            @else
+
+                                <x-forms.checkbox label="" placeholder="Factor" value="true"
+                                    wire:model="factor.{{ $factor_item->id }}" name="factor[]" />
+                            @endif
+
                         </td>
                         <td>{{ $factor_item->category }}</td>
                         <td>{{ $factor_item->factor }}</td>
@@ -46,13 +56,17 @@
         </tfoot>
     </table>
 
+    @if ($errors->any())
+        {!! implode('', $errors->all('<div class="alert alert-error">:message</div>')) !!}
+    @endif
     <div class="p-2 m-4">
-        <button class="btn btn-primary btn-block" wire:click='advance'>
+        <button class="btn btn-primary btn-block" wire:click='advance' wire.target='advance'
+            wire.loading.class="loading">
             Next
-
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 ml-2 stroke-current">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-      </button>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" wire.loading.remove
+                wire.target='advance' class="inline-block w-6 h-6 ml-2 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
     </div>
 </div>

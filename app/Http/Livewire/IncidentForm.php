@@ -15,88 +15,57 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Arr;
 
 class IncidentForm extends Component
 {
 
     use WithFileUploads;
 
+    public $incident = null;
+    public $staff_name = null;
+    public $staff_pno = null;
+    public $staff_injury = null;
+    public $model = null;
+    public $registration = null;
+    public $modalShow = false;
+    public $edit = true;
+    public $damage = null;
+    public $message = null;
     public $photos = [];
-    public $evidenceFiles = [];
-    public $evidence = [];
-    public $images = [];
-
-    public $date;
-    public $reporter;
-    public $report_type;
-    public $telephone;
-    public $pno;
-    public $department_id;
-    public $reporter_email;
-
-    //Incident Details
-    public $time;
-    public $location;
-    public $incident_type;
-    public $flight;
-    public $operational_impact;
-    public $narration;
-    public $immediate_corrective_action;
-    public $damage;
-    public $registration;
-    public $model;
-    public $staff_name;
-    public $staff_pno;
-    public $staff_injury;
-    public $incident_id = null;
-    public $vehicles = array();
-    public $staff = array();
-
-    //Assign
-    public $assigned_to_email;
-    public $assigned_to_name;
-
-    //Manager
-    public $root_cause;
-    public $findings;
-    public $corrective_action;
-
-    //Review
-    public $lti;
-    public $cost;
-    public $risk_level;
-    public $review_of_root_cause;
-    public $finalized;
 
     protected $rules = [
-        'date' => 'required|date',
-        'reporter' => 'required|min:3',
-        'report_type' => 'required',
-        'telephone' => 'required',
-        'pno' => 'required|min:2',
-        'department_id' => 'required',
-        'reporter_email' => 'email',
-        'time' => 'required',
-        'location' => 'required',
-        'incident_type' => 'required',
-        'flight' => '',
-        'operational_impact' => '',
-        'narration' => 'required',
-        'immediate_corrective_action' => 'required',
-        'vehicles' => '',
-        'staff' => '',
-        'assigned_to_email' => 'required|email',
-        'assigned_to_name' => 'required|min:2',
-        'root_cause' => '',
-        'findings' => '',
-        'corrective_action' => '',
-        'lti' => '',
-        'cost' => '',
-        'risk_level' => '',
-        'review_of_root_cause' => '',
-        'finalized' => '',
-        'evidence'=>'',
-        'evidenceFiles'=>'',
+        'incident.date' => 'required|date',
+        'incident.reporter' => 'required|min:3',
+        'incident.report_type' => 'required',
+        'incident.telephone' => 'required',
+        'incident.pno' => 'required|min:2',
+        'incident.department_id' => 'required',
+        'incident.reporter_email' => 'email',
+        'incident.time' => 'required',
+        'incident.location' => 'required',
+        'incident.incident_type' => 'required',
+        'incident.flight' => '',
+        'incident.operational_impact' => '',
+        'incident.narration' => 'required',
+        'incident.immediate_corrective_action' => 'required',
+        'incident.vehicles' => '',
+        'incident.staff' => '',
+        'incident.assigned_to_email' => 'required|email',
+        'incident.assigned_to_name' => 'required|min:2',
+        'incident.root_cause' => '',
+        'incident.findings' => '',
+        'incident.corrective_action' => '',
+        'incident.lti' => '',
+        'incident.cost' => '',
+        'incident.risk_level' => '',
+        'incident.review_of_root_cause' => '',
+        'incident.finalized' => '',
+        'incident.evidence' => '',
+        'incident.finding_level'=>'',
+
+        'incident.photos' => '',
+        'photos' => '',
 
     ];
 
@@ -106,182 +75,165 @@ class IncidentForm extends Component
     }
     public function mount($incident_id)
     {
+        $this->message = [];
+        $this->message['title'] = '';
+        $this->message['subtext'] = '';
+        $this->message['information'] = '';
         if ($incident_id) {
+            $this->edit = false;
             $this->loadDefaults($incident_id);
+        } else {
+
+            $this->incident = new Incident();
         }
     }
 
+    public function closeModal()
+    {
+        $this->modalShow = false;
+    }
+
+    public function showModal($title, $subText, $information)
+    {
+        $this->message['title'] = $title;
+        $this->message['subtext'] = $subText;
+        $this->message['information'] = $information;
+        // dd('here');
+        $this->modalShow = true;
+    }
     public function render($id = null)
     {
-        $departments = Department::all();
-        return view('livewire.incident-form')->with(compact('departments'));
+        $departments = Department::all()->pluck('name', 'id');
+        $incident_types = array(
+            'MV Damage' => 'MV Damage',
+            'Aircraft Damage' => 'Aircraft Damage',
+            'Property Damage' => 'Property Damage',
+            'Cargo Damage' => 'Cargo Damage',
+            'Equipment Damage' => 'Equipment Damage',
+            'Environmental Spillage' => 'Environmental Spillage (Fuel,Oil,Toilet Waste,Hydraulic Waste)',
+            'Near Miss' => 'Near Miss',
+            'Hazard' => 'Hazard',
+        );
+        $risk_levels = array(
+            '1A' => '1A',
+            '1B' => '1B',
+            '1C' => '1C',
+            '1D' => '1D',
+            '1E' => '1E',
+            '2A' => '2A',
+            '2B' => '2B',
+            '2C' => '2C',
+            '2D' => '2D',
+            '2E' => '2E',
+            '3A' => '3A',
+            '3B' => '3B',
+            '3C' => '3C',
+            '3D' => '3D',
+            '3E' => '3E',
+            '4A' => '4A',
+            '4B' => '4B',
+            '4C' => '4C',
+            '4D' => '4D',
+            '4E' => '4E',
+            '5A' => '5A',
+            '5B' => '5B',
+            '5C' => '5C',
+            '5D' => '5D',
+            '5E' => '5E',
+        );
+        $finding_levels = array(
+            'L1'=>'L1 (Close Within 7 Days)',
+            'L2'=>'L2 (Close Within 30 Days)',
+            'L3'=>'L3 (Close Within 90 Days)',
+        );
+        return view('livewire.incident-form')->with(compact('departments', 'incident_types','risk_levels','finding_levels'));
     }
 
     public function loadDefaults($id)
     {
         $incident = Incident::find($id);
-        $this->date = $incident->date;
-        $this->reporter = $incident->reporter;
-        $this->report_type = $incident->report_type;
-        $this->telephone = $incident->telephone;
-        $this->pno = $incident->pno;
-        $this->department_id = $incident->department_id;
-        $this->reporter_email = $incident->reporter_email;
-        $this->time = $incident->time;
-        $this->location = $incident->location;
-        $this->incident_type = $incident->incident_type;
-        $this->flight = $incident->flight;
-        $this->operational_impact = $incident->operational_impact;
-        $this->narration = $incident->narration;
-        $this->immediate_corrective_action = $incident->immediate_corrective_action;
-        $this->assigned_to_email = $incident->assigned_to_email;
-        $this->assigned_to_name = $incident->assigned_to_name;
-        $this->root_cause = $incident->root_cause;
-        $this->findings = $incident->findings;
-        $this->corrective_action = $incident->corrective_action;
-        $this->lti = $incident->lti;
-        $this->cost = $incident->cost;
-        $this->risk_level = $incident->risk_level;
-        $this->review_of_root_cause = $incident->review_of_root_cause;
-        $this->finalized = $incident->finalized;
-        $this->vehicles = json_decode($incident->vehicles);
-        $this->evidence = json_decode($incident->evidence);
+        $this->incident = $incident;
 
 
-        if ($this->vehicles != null) {
-            foreach ($this->vehicles as $key => $value) {
-                $this->vehicles[$key] = (array)$value;
-            }
-        }
-        $this->staff = json_decode($incident->staff);
-        if ($this->staff != null) {
-            foreach ($this->staff as $key => $value) {
-                $this->staff[$key] = (array)$value;
-            }
-        }
-        $this->images = json_decode($incident->photos);
-        if ($this->images != null) {
-            foreach ($this->images as $key => $value) {
-                $this->images[$key] = $value;
-            }
-        }
+
+        $this->incident->evidence = $this->incident->evidence;
     }
 
     public function saveReport()
     {
         $this->validate([
-            'date' => 'required|date',
-            'reporter' => 'required|min:3',
-            'report_type' => 'required',
-            'pno' => 'required|min:2',
-            'department_id' => 'required',
-            'reporter_email' => 'email',
-            'time' => 'required',
-            'location' => 'required',
-            'incident_type' => 'required',
-            'flight' => '',
-            'evidence' => '',
-            'operational_impact' => '',
-            'narration' => 'required|min:10',
-            'immediate_corrective_action' => 'required|min:10',
-            'telephone' => 'required|min:8'
+            'incident.date' => 'required|date',
+            'incident.reporter' => 'required|min:3',
+            'incident.report_type' => 'required',
+            'incident.pno' => 'required|min:2',
+            'incident.department_id' => 'required',
+            'incident.reporter_email' => 'email',
+            'incident.time' => 'required',
+            'incident.location' => 'required',
+            'incident.incident_type' => 'required',
+            'incident.flight' => '',
+            'incident.evidence' => '',
+            'incident.operational_impact' => '',
+            'incident.narration' => 'required|min:10',
+            'incident.immediate_corrective_action' => 'required|min:10',
+            'incident.telephone' => 'required|min:8'
 
         ]);
-        $incident =  Incident::create(array(
-            'date' => $this->date,
-            'reporter' => $this->reporter,
-            'report_type' => $this->report_type,
-            'pno' => $this->pno,
-            'telephone' => $this->telephone,
-            'department_id' => $this->department_id,
-            'reporter_email' => $this->reporter_email,
-            'time' => $this->time,
-            'location' => $this->location,
-            'incident_type' => $this->incident_type,
-            'flight' => $this->flight,
-            'operational_impact' => $this->operational_impact,
-            'narration' => $this->narration,
-            'immediate_corrective_action' => $this->immediate_corrective_action,
-            'vehicles' => json_encode($this->vehicles),
-            'staff' => json_encode($this->staff),
-            'photos' => json_encode($this->images),
-            'evidence' => json_encode($this->evidence)
-        ));
-        $this->incident_id = $incident->id;
-        Mail::to($this->reporter_email)->cc('osh@afske.aero')->send(new NewIncident($incident));
-        $this->message('This Incident <b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve, Please check your email if you want to edit your incident.');
+        $this->incident->finalized = 0;
+        $incident =  Incident::create($this->incident->toArray());
+        Mail::to($this->incident->reporter_email)->cc('osh@afske.aero')->send(new NewIncident($incident));
+        $this->edit = false;
+        $this->showModal('Incident Raised', 'Incident was raised Successfully', 'Your Incident was raised successfully');
     }
 
     public function updateReport()
     {
-        $this->validate([
-            'date' => 'required|date',
-            'reporter' => 'required|min:3',
-            'report_type' => 'required',
-            'pno' => 'required|min:2',
-            'department_id' => 'required',
-            'reporter_email' => 'email',
-            'time' => 'required',
-            'location' => 'required',
-            'incident_type' => 'required',
-            'flight' => '',
-            'evidence' => '',
-            'operational_impact' => '',
-            'narration' => 'required|min:10',
-            'immediate_corrective_action' => 'required|min:10',
-            'telephone' => 'required|min:8'
 
-        ]);
-        $incident =  Incident::find($this->incident_id);
-        //dd($this->photos);
-        $incident->update(array(
-            'date' => $this->date,
-            'reporter' => $this->reporter,
-            'pno' => $this->pno,
-            'report_type' => $this->report_type,
-            'telephone' => $this->telephone,
-            'department_id' => $this->department_id,
-            'reporter_email' => $this->reporter_email,
-            'time' => $this->time,
-            'location' => $this->location,
-            'incident_type' => $this->incident_type,
-            'flight' => $this->flight,
-            'operational_impact' => $this->operational_impact,
-            'narration' => $this->narration,
-            'immediate_corrective_action' => $this->immediate_corrective_action,
-            'vehicles' => json_encode($this->vehicles),
-            'staff' => json_encode($this->staff),
-            'photos' => json_encode($this->images),
-            'evidence' => json_encode($this->evidence)
-        ));
-        $this->incident_id = $incident->id;
-        $this->message('This Incident :<b>' . $incident->incident_no . '</b> has been successfully updated and an OSH staff will assign it to a manager to resolve.');
+        $this->validate([
+            'incident.date' => 'required|date',
+            'incident.reporter' => 'required|min:3',
+            'incident.report_type' => 'required',
+            'incident.pno' => 'required|min:2',
+            'incident.department_id' => 'required',
+            'incident.reporter_email' => 'email',
+            'incident.time' => 'required',
+            'incident.location' => 'required',
+            'incident.incident_type' => 'required',
+            'incident.flight' => '',
+            'incident.evidence' => '',
+            'incident.operational_impact' => '',
+            'incident.narration' => 'required|min:10',
+            'incident.immediate_corrective_action' => 'required|min:10',
+            'incident.telephone' => 'required|min:8'
+
+        ]);;
+        $incident = Arr::except($this->incident->toArray(), ['department']);
+        $this->incident->update($incident);
+        $this->edit = false;
+        $this->showModal('Incident Updated', 'Incident was updated Successfully', 'Your Incident has been successfully updated and an OSH staff will assign it to a manager to resolve');
     }
 
     public function assignToManager($id)
     {
         $this->validate([
-            'assigned_to_email' => 'required|email',
-            'assigned_to_name' => 'required|min:2',
+            'incident.assigned_to_email' => 'required|email',
+            'incident.assigned_to_name' => 'required|min:2',
+            'incident.finding_level' => 'required',
         ]);
-        $incident = Incident::find($id);
-        $incident->update(array(
-            'assigned_to_email' => $this->assigned_to_email,
-            'assigned_to_name' => $this->assigned_to_name
-        ));
+        $this->incident->save();
         $password = Str::random(4);
-        $user =  User::where('email', $this->assigned_to_email)->first();
+        $user =  User::where('email', $this->incident->assigned_to_email)->first();
         if ($user) {
         } else {
             $user =  User::create(array(
-                'name' => $this->assigned_to_name,
-                'email' => $this->assigned_to_email,
+                'name' => $this->incident->assigned_to_name,
+                'email' => $this->incident->assigned_to_email,
                 'password' => Hash::make(Str::random(4)),
                 'account_type' => 'manager'
             ));
         }
-        Mail::to($this->assigned_to_email)->cc('osh@afske.aero')->send(new ManagerAssigned($incident, $user));
-        $this->message('This Incident has been assigned to ' . $this->assigned_to_name . ' and email sent to him');
+        Mail::to($this->incident->assigned_to_email)->cc('osh@afske.aero')->send(new ManagerAssigned($this->incident, $user));
+        $this->showModal('Incident Assigned', 'Incident was assigned', 'This Incident has been assigned to ' . $this->incident->assigned_to_name . ' and email sent to him');
     }
 
     public function closeIncident($id)
@@ -302,6 +254,11 @@ class IncidentForm extends Component
             ->cc(Auth::user()->email)
             ->send(new IncidentClosed($incident, Auth::user()));
         $this->message('This Incident closure has been sent to OSH department.');
+    }
+
+    public function editIncident()
+    {
+        $this->edit =  !$this->edit;
     }
     public function oshReview($id)
     {
@@ -334,42 +291,65 @@ class IncidentForm extends Component
             'photos.*' => 'max:2024', // 1MB Max
         ]);
 
+        $files = $this->incident->photos;
+        if (!is_array($files)) {
+            $files = [];
+        }
         foreach ($this->photos as $photo) {
             $uploadedFile =  $photo->store('public/photos');
             $extension = explode('/', $uploadedFile);
             $filename = end($extension);
-            $this->images[] = $filename;
+            $files[] = $filename;
         }
+
+        $this->incident->photos = $files;
+        $this->incident->save();
+        $files = null;
+        $this->photos = [];
     }
 
-    public function saveEvidence(){
+    public function saveEvidence()
+    {
         $this->validate([
             'evidenceFiles.*' => 'max:5024', // 1MB Max
         ]);
 
-        foreach ($this->evidenceFiles as $evidence) {
+        foreach ($this->incident->evidence as $evidence) {
             $uploadedFile =  $evidence->store('public/evidence');
             $extension = explode('/', $uploadedFile);
             $filename = end($extension);
             $this->evidence[] = $filename;
         }
+
         $this->updateReport();
     }
     public function addVehicle()
     {
         $this->validate(
             array(
-                'model' => 'min:3'
+                'model' => 'min:3',
+                'registration' => 'required|min:4',
+                'damage' => 'required|min:4',
             )
         );
-        array_push($this->vehicles, array(
+
+        $vehicles = $this->incident->vehicles ?? [];
+        if (!is_array($vehicles)) {
+            $vehicles = [];
+        }
+
+        array_push($vehicles, array(
             'model' => $this->model,
             'registration' => $this->registration,
             'damage' => $this->damage,
         ));
+        $this->incident->vehicles = $vehicles;
         $this->model = '';
         $this->registration = '';
         $this->damage = '';
+        if ($this->incident->id != null) {
+            $this->incident->save();
+        }
     }
     public function addStaff()
     {
@@ -378,14 +358,23 @@ class IncidentForm extends Component
                 'staff_name' => 'min:3'
             )
         );
-        array_push($this->staff, array(
+
+        $staff = $this->incident->staff ?? [];
+        if (!is_array($staff)) {
+            $staff = [];
+        }
+        array_push($staff, array(
             'staff_name' => $this->staff_name,
             'staff_pno' => $this->staff_pno,
             'staff_injury' => $this->staff_injury,
         ));
+        $this->incident->staff = $staff;
         $this->staff_name = '';
         $this->staff_pno = '';
         $this->staff_injury = '';
+        if ($this->incident->id != null) {
+            $this->incident->save();
+        }
     }
 
     public function removeVehicle($index)
@@ -394,7 +383,7 @@ class IncidentForm extends Component
     }
     public function removeStaff($index)
     {
-        unset($this->staff[$index]);
+        unset($this->incident->staff[$index]);
     }
 
     public function message($message)

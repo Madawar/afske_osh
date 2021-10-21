@@ -1,10 +1,10 @@
+@import 'modal.css';
+@import "flatpickr.css";
+@import 'Chart.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'modal.css';
-@import 'flatpickr.css';
-@import 'Chart.min.css';
-@import '../../node_modules/winbox/dist/css/winbox.min.css';
+
 
 
     .sidebar-item {

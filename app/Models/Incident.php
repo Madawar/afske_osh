@@ -15,9 +15,19 @@ class Incident extends Model
     protected $guarded = [
 
     ];
-
+    protected $casts = [
+        'vehicles' => 'array',
+        'staff' => 'array',
+        'photos' => 'array',
+        'evidence' => 'array',
+    ];
     public function department()
     {
         return $this->hasOne(Department::class,'id','department_id');
+    }
+
+    public function finding()
+    {
+        return $this->hasMany(IncidentFindings::class,'incident_id','id');
     }
 }

@@ -7,8 +7,8 @@
     <?php use App\Models\Incident; ?>
     <?php use App\Models\Checklist; ?>
     <?php use App\Models\Audit; ?>
-    <div class=" bg-white dark:bg-gray-800 border-r  border-gray-100 border-opacity-90 " @click.away="open = false"
-        x-data="{ open: false }">
+    <div class=" bg-white dark:bg-gray-800 border-r  border-gray-100 border-opacity-90 h-full "
+        @click.away="open = false" x-data="{ open: false }">
         <div class="flex-shrink-0 px-3 py-1 flex flex-row items-center justify-between">
             <a href="#"
                 class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
@@ -88,20 +88,86 @@
                                 </button>
                             </span>
                         </a>
-                        <a class="hover:text-gray-800 font-thin text-gray-500 dark:text-gray-400 hover:bg-gray-100 flex items-center p-1 my-2 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200 justify-start"
-                            href="#">
+
+                    </div>
+      @if (Auth::user()->account_type == 'osh')
+                    <div>
+                        <p class="sidebar-header">
+                            Application Settings
+                        </p>
+                        <a class="sidebar-item {{ request()->is('factor') ? 'bg-gray-100' : '' }}" href="/factor">
                             <span class="text-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                                    stroke="currentColor" class="h-6 w-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                                </svg>
+
                             </span>
                             <span class="mx-4 text-md font-normal">
-                                Voir la carte
+                                Incident Factors
                             </span>
+
                         </a>
                     </div>
+
+                        <div>
+                            <p class="sidebar-header">
+                                Accounts
+                            </p>
+                            <a class="sidebar-item {{ request()->is('department') ? 'bg-gray-100' : '' }}"
+                                href="{{ action([DepartmentController::class, 'index']) }}">
+                                <span class="text-left">
+                                    <svg class="h-6 w-6" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <style>
+                                                .cls-1 {
+                                                    fill: #101820;
+                                                }
+
+                                            </style>
+                                        </defs>
+                                        <title />
+                                        <g data-name="Layer 20" id="Layer_20">
+                                            <path class="cls-1"
+                                                d="M16,22a6,6,0,1,1,6-6A6,6,0,0,1,16,22Zm0-10a4,4,0,1,0,4,4A4,4,0,0,0,16,12Z" />
+                                            <path class="cls-1"
+                                                d="M21,31H11a4,4,0,0,1-4-4V24.45a1,1,0,0,1,.63-.92l3.64-1.46A1,1,0,1,1,12,23.93l-3,1.2V27a2,2,0,0,0,2,2H21a2,2,0,0,0,2-2V25.13l-3-1.2a1,1,0,0,1,.74-1.86l3.64,1.46a1,1,0,0,1,.63.92V27A4,4,0,0,1,21,31Z" />
+                                            <path class="cls-1"
+                                                d="M9,11a5,5,0,1,1,5-5A5,5,0,0,1,9,11ZM9,3a3,3,0,1,0,3,3A3,3,0,0,0,9,3Z" />
+                                            <path class="cls-1"
+                                                d="M8,19.39H5a4,4,0,0,1-4-4V13.64a1,1,0,0,1,.63-.93l3.19-1.25A1,1,0,0,1,6.11,12a1,1,0,0,1-.56,1.3L3,14.32v1.07a2,2,0,0,0,2,2H8a1,1,0,0,1,0,2Z" />
+                                            <path class="cls-1"
+                                                d="M23,11a5,5,0,1,1,5-5A5,5,0,0,1,23,11Zm0-8a3,3,0,1,0,3,3A3,3,0,0,0,23,3Z" />
+                                            <path class="cls-1"
+                                                d="M27,19.39H24a1,1,0,0,1,0-2h3a2,2,0,0,0,2-2V14.32l-2.55-1a1,1,0,0,1-.56-1.3,1,1,0,0,1,1.29-.57l3.19,1.25a1,1,0,0,1,.63.93v1.75A4,4,0,0,1,27,19.39Z" />
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="mx-4 text-md font-normal">
+                                    Departments
+                                </span>
+
+                            </a>
+                            <a class="sidebar-item {{ request()->is('users') ? 'bg-gray-100' : '' }}"
+                                href="{{ action([UserController::class, 'index']) }}">
+                                <span class="text-left">
+                                    <svg class="h-6 w-6" viewBox="0 0 24 24" width="24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="#000"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                        <circle cx="8.5" cy="7" fill="none" r="4" stroke="#000" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2" />
+                                        <line fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" x1="20" x2="20" y1="8" y2="14" />
+                                        <line fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" x1="23" x2="17" y1="11" y2="11" />
+                                    </svg>
+                                </span>
+                                <span class="mx-4 text-md font-normal">
+                                    User Managment
+                                </span>
+
+                            </a>
+
+
+                        </div>
+                    @endif
 
 
                 </nav>

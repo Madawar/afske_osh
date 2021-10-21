@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use PDF;
 use Jenssegers\Agent\Agent;
 use Excel;
+use Illuminate\Support\Arr;
 
 class IncidentController extends Controller
 {
@@ -103,32 +104,32 @@ class IncidentController extends Controller
     public function toWord($id)
     {
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(Storage::path('Template.docx'));
-        $incident =  Incident::find($id);
-        //Vehicles Detauls
-        $vehicles = json_decode($incident->vehicles);
-        if ($vehicles != null) {
-            $string = '';
-            foreach ($vehicles as $vehicle) {
-                $string = $string . ' ' . $vehicle->model . ' Registration Number ' . $vehicle->registration . ' ,' . $vehicle->damage . '<w:br/>';
-            }
-            $incident->vehicles = $string;
-        }
-        //Injuries
-        $staff = json_decode($incident->staff);
-        if ($staff != null) {
-            $string = '';
-            foreach ($staff as $employee) {
-                $string = $string . ' ' . $employee->staff_name . ' ( Payroll Number : ' . $employee->staff_pno . '),' . $employee->staff_injury . '<w:br/>';
-            }
-            $incident->staff = $string;
+        $incident =  Incident::with('department','finding')->find($id);
+        //dd($incident->finding[0]->analysis);
+        $incident->dep = '';
+        if(isset($incident->department)){
+            $incident->dep = $incident->department->name;
         }
 
-
-
+        $incident->date = Carbon::parse($incident->date)->format('j-M-y');
+        $incident->created_at = Carbon::parse($incident->created_at)->format('j-M-y');
+        $r =  Arr::except($incident->toArray(), ['vehicles','finding', 'staff', 'evidence', 'photos','department']);
         $replacements = array(
-            $incident->toArray()
+            $r
         );
+       $findings =  $incident->finding->toArray();
+       foreach($findings as $key=>$finding){
+
+            unset($findings[$key]['analysis']);
+
+       }
+
         $templateProcessor->cloneBlock('block_name', 0, true, false, $replacements);
+        $templateProcessor->cloneBlock('vehicles', 0, true, false, $incident->vehicles);
+        $templateProcessor->cloneBlock('staff', 0, true, false, $incident->staff);
+        $templateProcessor->cloneBlock('findings', 0, true, false,$findings);
+        $templateProcessor->cloneBlock('findings_old', 0, true, false,$replacements);
+        $templateProcessor->cloneBlock('assigned_to', 0, true, false,$replacements);
         $path = 'public/' . Str::random(5) . '.docx';
         $templateProcessor->saveAs(Storage::path($path));
         return $path;
