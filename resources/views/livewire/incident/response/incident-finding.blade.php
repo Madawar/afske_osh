@@ -2,7 +2,8 @@
     <div class=" bg-gray-50  border-b  border-opacity-90">
         <div class=" flex flex-col md:flex-row p-2 md:space-x-1 md:space-y-0 space-y-1 w-full">
             <div class="flex-auto">
-                <x-forms.input label="Contributing Factor" placeholder="Finding" wire:model="finding.factor" disabled
+
+                <x-forms.input label="Contributing Factor : {{$finding->fc->category}}" placeholder="Finding" wire:model="finding.factor" disabled
                     name="factor" />
             </div>
         </div>

@@ -16,4 +16,9 @@ class IncidentFindings extends Model
     protected $guarded = [
 
     ];
+
+    public function fc()
+    {
+        return $this->hasOne(IncidentFactor::class,'id','incident_factor_id');
+    }
 }
