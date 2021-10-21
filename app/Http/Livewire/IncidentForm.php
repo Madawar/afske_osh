@@ -107,6 +107,9 @@ class IncidentForm extends Component
         $incident_types = array(
             'MV Damage' => 'MV Damage',
             'Aircraft Damage' => 'Aircraft Damage',
+            'Employee Injury' => 'Employee Injury',
+            'Fire Incident' => 'Fire Incident',
+            'Vehicle incident' => 'Vehicle incident',
             'Property Damage' => 'Property Damage',
             'Cargo Damage' => 'Cargo Damage',
             'Equipment Damage' => 'Equipment Damage',
@@ -206,8 +209,9 @@ class IncidentForm extends Component
             'incident.immediate_corrective_action' => 'required|min:10',
             'incident.telephone' => 'required|min:8'
 
-        ]);;
-        $incident = Arr::except($this->incident->toArray(), ['department']);
+        ]);
+       // dd($this->incident);
+        $incident = Arr::except($this->incident->toArray(), ['department','finding']);
         $this->incident->update($incident);
         $this->edit = false;
         $this->showModal('Incident Updated', 'Incident was updated Successfully', 'Your Incident has been successfully updated and an OSH staff will assign it to a manager to resolve');
