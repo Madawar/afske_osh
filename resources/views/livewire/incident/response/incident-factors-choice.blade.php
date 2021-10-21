@@ -11,6 +11,20 @@
     <div class="alert alert-info">
         Please Choose atleast one factor that caused this incident and click next, if it has been already chosen click next
     </div>
+        <div class="p-2 m-4">
+        <button class="btn btn-primary btn-block" wire:click='advance' wire.target='advance'
+            wire.loading.class="loading">
+            Next
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" wire.loading.remove
+                wire.target='advance' class="inline-block w-6 h-6 ml-2 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+        @if ($errors->any())
+        {!! implode('', $errors->all('<div class="alert alert-error">:message</div>')) !!}
+        <div> Please Choose atleast one Factor</div>
+    @endif
     <table class="table table-compact table-zebra w-full">
         <thead>
 

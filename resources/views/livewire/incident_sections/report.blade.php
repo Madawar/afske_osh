@@ -6,9 +6,10 @@
                  <span class="block font-light text-gray-800">Click edit to modify this Incident <button
                          wire:click='editIncident' class="btn btn-sm btn-primary">Edit Incident</button> <span>
 
-             @else
-              <span class="block font-light text-gray-800">Click the button below to start Closing the incident <a
-                         href="{{ url("incident/response/factor/{$incident->id}") }}" class="btn btn-sm btn-primary">Start Closing Incident</a> </span>
+                     @else
+                         <span class="block font-light text-gray-800">Click the button below to start Closing the
+                             incident <a href="{{ url("incident/response/factor/{$incident->id}") }}"
+                                 class="btn btn-sm btn-primary">Start Closing Incident</a> </span>
              @endif
          </h2>
      </div>
@@ -65,14 +66,14 @@
      <div class="flex md:flex-row divide-x divide-gray-300 flex-col ">
          <div class="p-2 flex-auto ">
              <div class="block font-sans font-semibold text-gray-900">Narration Of Incident :</div>
-             <div class="md:ml-4">{{ $incident->narration }} </div>
+             <div class="md:ml-4 leading-loose">{{ $incident->narration }} </div>
          </div>
 
      </div>
      <div class="flex md:flex-row divide-x divide-gray-300 flex-col ">
          <div class="p-2 flex-auto ">
              <div class="block font-sans font-semibold text-gray-900">Immediate Corrective Actions :</div>
-             <div class="md:ml-4">{{ $incident->immediate_corrective_action }} </div>
+             <div class="md:ml-4 leading-loose">{{ $incident->immediate_corrective_action }} </div>
          </div>
 
      </div>
@@ -180,18 +181,63 @@
          </div>
 
      </div>
-     <div class="flex md:flex-row divide-x divide-gray-300 flex-row ">
+     <div class="flex md:flex-col  divide-gray-300 flex-col divide-y divide-gray-300 leading-loose">
+
+
 
          @foreach ($incident->finding as $finding)
+             <div class="p-3">
+                 <div><b>Factor :</b> {{ $finding->factor }}</div>
 
-             <div class="p-2 flex-auto ">
-                 <div class="block font-sans font-semibold text-gray-900">Finding : {{$finding->factor}}</div>
-                 <div class="md:ml-4">{{ $finding->corrective_action }} </div>
+                 @isset($finding->analysis)
+                     <table class="table w-full">
+                         <thead>
+                             <tr>
+
+                                 <th>Why</th>
+                                 <th>Containment</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @foreach ($finding->analysis as $analysis)
+                                 <tr>
+                                     <td>{{ $analysis['why'] }}</td>
+                                     <td>{{ $analysis['containment'] }}</td>
+
+                                 </tr>
+                             @endforeach
+                         </tbody>
+                     </table>
+                 @endisset
+
+                 <div><b>Corrective Action :</b> {{ $finding->corrective_action }}</div>
              </div>
          @endforeach
 
-
      </div>
+     @isset($incident->corrective_action)
+         <div class="flex md:flex-col divide-x divide-gray-300 flex-col divide-y divide-gray-300 p-2 leading-loose">
+
+             <div class="">
+                 <b>Root Cause : </b> {{ $incident->root_cause }} <br />
+                 <b>Findings : </b>{{ $incident->findings }} <br />
+                 <b>Corrective Action :</b> {{ $incident->corrective_action }}<br />
+             </div>
+
+
+
+
+
+
+         </div>
+     @endisset
+     @isset($incident->preventive_measure)
+         <div class="flex md:flex-col divide-x divide-gray-300 flex-col divide-y divide-gray-300 p-2 leading-loose">
+             <div class="">
+                 <b>Preventive Measure : </b> {{ $incident->preventive_measure }} <br />
+             </div>
+         </div>
+     @endisset
 
 
 

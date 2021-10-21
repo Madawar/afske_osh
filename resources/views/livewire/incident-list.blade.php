@@ -64,7 +64,7 @@
                             <a href="{{ url("/incidents/{$incident->id}") }}?word=true"">{{ $incident->incident_no }}</a></td>
                     <td>
                           {{ Carbon\Carbon::parse($incident->date)->format('j-M-y') }}  <span
-                                class="  text-2xs">(Reported
+                                class="   text-2xs">(Reported
                                 {{ Carbon\Carbon::parse($incident->created_at)->format('j-M-y') }})
                                 </span>
 
@@ -94,43 +94,77 @@
                         @endif
                         <td>
 
-                                <a class="btn  btn-square btn-xs btn-success"
-                                    href="{{ url("/incidents/{$incident->id}") }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            <a class="btn  btn-square btn-xs btn-success"
+                                href="{{ url("/incidents/{$incident->id}") }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+
+                            </a>
+                            @if (Auth::user()->account_type == 'osh')
+                                <a class="btn  btn-square btn-xs btn-error "
+                                    href="{{ url("incident/response/corrective/{$incident->id}") }}">
+                                    <svg class="h-4 w-4 bg-white" viewBox="0 0 32 32"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <style>
+                                                .cls-1 {
+                                                    fill: none;
+                                                    stroke: #000;
+                                                    stroke-linejoin: round;
+                                                    stroke-width: 2px;
+                                                }
+
+                                            </style>
+                                        </defs>
+                                        <title />
+                                        <g data-name="388-Browser Cancel" id="_388-Browser_Cancel">
+                                            <polyline class="cls-1" points="19 29 1 29 1 3 31 3 31 20" />
+                                            <line class="cls-1" x1="1" x2="31" y1="9" y2="9" />
+                                            <line class="cls-1" x1="4" x2="6" y1="6" y2="6" />
+                                            <line class="cls-1" x1="8" x2="10" y1="6" y2="6" />
+                                            <line class="cls-1" x1="23" x2="29" y1="22" y2="28" />
+                                            <line class="cls-1" x1="29" x2="23" y1="22" y2="28" />
+                                        </g>
                                     </svg>
+
 
                                 </a>
 
-                            <a class="btn  btn-square btn-xs btn-error "
-                                href="{{ url("incident/response/factor/{$incident->id}") }}">
-                                <svg class="h-4 w-4 bg-white" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <style>
-                                            .cls-1 {
-                                                fill: none;
-                                                stroke: #000;
-                                                stroke-linejoin: round;
-                                                stroke-width: 2px;
-                                            }
+                            @else
 
-                                        </style>
-                                    </defs>
-                                    <title />
-                                    <g data-name="388-Browser Cancel" id="_388-Browser_Cancel">
-                                        <polyline class="cls-1" points="19 29 1 29 1 3 31 3 31 20" />
-                                        <line class="cls-1" x1="1" x2="31" y1="9" y2="9" />
-                                        <line class="cls-1" x1="4" x2="6" y1="6" y2="6" />
-                                        <line class="cls-1" x1="8" x2="10" y1="6" y2="6" />
-                                        <line class="cls-1" x1="23" x2="29" y1="22" y2="28" />
-                                        <line class="cls-1" x1="29" x2="23" y1="22" y2="28" />
-                                    </g>
-                                </svg>
+                                <a class="btn  btn-square btn-xs btn-error "
+                                    href="{{ url("incident/response/factor/{$incident->id}") }}">
+                                    <svg class="h-4 w-4 bg-white" viewBox="0 0 32 32"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <style>
+                                                .cls-1 {
+                                                    fill: none;
+                                                    stroke: #000;
+                                                    stroke-linejoin: round;
+                                                    stroke-width: 2px;
+                                                }
+
+                                            </style>
+                                        </defs>
+                                        <title />
+                                        <g data-name="388-Browser Cancel" id="_388-Browser_Cancel">
+                                            <polyline class="cls-1" points="19 29 1 29 1 3 31 3 31 20" />
+                                            <line class="cls-1" x1="1" x2="31" y1="9" y2="9" />
+                                            <line class="cls-1" x1="4" x2="6" y1="6" y2="6" />
+                                            <line class="cls-1" x1="8" x2="10" y1="6" y2="6" />
+                                            <line class="cls-1" x1="23" x2="29" y1="22" y2="28" />
+                                            <line class="cls-1" x1="29" x2="23" y1="22" y2="28" />
+                                        </g>
+                                    </svg>
 
 
-                            </a>
+                                </a>
+                            @endif
+
                         </td>
 
                         @if ($incident->finalized)

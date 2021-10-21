@@ -263,25 +263,18 @@ class IncidentForm extends Component
     public function oshReview($id)
     {
         $this->validate([
-            'lti' => '',
-            'cost' => '',
-            'risk_level' => '',
-            'review_of_root_cause' => 'required|min:10',
-            'finalized' => 'required'
+            'incident.lti' => '',
+            'incident.cost' => '',
+            'incident.risk_level' => '',
+            'incident.review_of_root_cause' => 'required|min:10',
+            'incident.finalized' => 'required'
         ]);
-        $incident = Incident::find($id);
-        $incident->update(array(
-            'lti' => $this->lti,
-            'cost' => $this->cost,
-            'risk_level' => $this->risk_level,
-            'review_of_root_cause' => $this->review_of_root_cause,
-            'finalized' => $this->finalized
-        ));
-        if ($this->finalized) {
-            $this->message('Incident Closed.');
+        $this->incident->save();
+        if ($this->incident->finalized) {
+            $this->showModal('Incident Closed', 'Incident was Closed Successfully', 'This Incident has been closed');
         } else {
-            $user =  User::where('email', $incident->assigned_to_email)->first();
-            Mail::to($this->assigned_to_email)->send(new IncidentReviewFailed($incident, $user));
+            $user =  User::where('email', $this->incident->assigned_to_email)->first();
+            Mail::to($this->assigned_to_email)->send(new IncidentReviewFailed($this->incident, $user));
             $this->message('A response has been sent to the Manager.');
         }
     }
