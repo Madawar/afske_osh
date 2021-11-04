@@ -62,7 +62,7 @@ class IncidentForm extends Component
         'incident.review_of_root_cause' => '',
         'incident.finalized' => '',
         'incident.evidence' => '',
-        'incident.finding_level'=>'',
+        'incident.finding_level' => '',
 
         'incident.photos' => '',
         'photos' => '',
@@ -85,6 +85,7 @@ class IncidentForm extends Component
         } else {
 
             $this->incident = new Incident();
+            $this->incident->finalized = 0;
         }
     }
 
@@ -145,11 +146,11 @@ class IncidentForm extends Component
             '5E' => '5E',
         );
         $finding_levels = array(
-            'L1'=>'L1 (Close Within 7 Days)',
-            'L2'=>'L2 (Close Within 30 Days)',
-            'L3'=>'L3 (Close Within 90 Days)',
+            'L1' => 'L1 (Close Within 7 Days)',
+            'L2' => 'L2 (Close Within 30 Days)',
+            'L3' => 'L3 (Close Within 90 Days)',
         );
-        return view('livewire.incident-form')->with(compact('departments', 'incident_types','risk_levels','finding_levels'));
+        return view('livewire.incident-form')->with(compact('departments', 'incident_types', 'risk_levels', 'finding_levels'));
     }
 
     public function loadDefaults($id)
@@ -159,7 +160,7 @@ class IncidentForm extends Component
 
 
 
-        $this->incident->evidence = $this->incident->evidence;
+        // $this->incident->evidence = $this->incident->evidence;
     }
 
     public function saveReport()
@@ -210,8 +211,8 @@ class IncidentForm extends Component
             'incident.telephone' => 'required|min:8'
 
         ]);
-       // dd($this->incident);
-        $incident = Arr::except($this->incident->toArray(), ['department','finding']);
+        // dd($this->incident);
+        $incident = Arr::except($this->incident->toArray(), ['department', 'finding']);
         $this->incident->update($incident);
         $this->edit = false;
         $this->showModal('Incident Updated', 'Incident was updated Successfully', 'Your Incident has been successfully updated and an OSH staff will assign it to a manager to resolve');
@@ -300,9 +301,11 @@ class IncidentForm extends Component
         }
 
         $this->incident->photos = $files;
-        $this->incident->save();
-        $files = null;
-        $this->photos = [];
+        if ($this->incident->id != null) {
+            $this->incident->save();
+            $files = null;
+            $this->photos = [];
+        }
     }
 
     public function saveEvidence()
