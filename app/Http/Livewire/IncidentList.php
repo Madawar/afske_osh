@@ -10,6 +10,8 @@ use Livewire\WithPagination;
 use Illuminate\Support\Str;
 use Excel;
 use App\Exports\IncidentExport;
+use App\Exports\IncidentYearlyExport;
+
 class IncidentList extends Component
 {
     use WithPagination;
@@ -86,15 +88,16 @@ class IncidentList extends Component
         return $query;
     }
 
-    public function download(){
+    public function download()
+    {
         $query = Incident::query();
         $query = $query->with('department.owner');
-        $records = $this->query($query)->get();
-        $file = Str::random(4).'.xlsx';
+        $records = $this->query($query);
+        $file = Str::random(4) . '.xlsx';
         $file = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $file);
         // Remove any runs of periods (thanks falstro!)
         $file = mb_ereg_replace("([\.]{2,})", '', $file);
-        return Excel::download(new IncidentExport($records), $file);;
+        return Excel::download(new IncidentYearlyExport($records), $file);;
     }
 
     public function sortBy($name)

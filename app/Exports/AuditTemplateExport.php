@@ -35,9 +35,9 @@ class AuditTemplateExport implements FromView, ShouldAutoSize, WithColumnWidths,
             'A' => 70,
 
             'E' => 60,
-            'H'=> 70,
-            'I'=> 70,
-            'J'=> 70,
+            'H' => 70,
+            'I' => 70,
+            'J' => 70,
 
         ];
     }
@@ -48,13 +48,11 @@ class AuditTemplateExport implements FromView, ShouldAutoSize, WithColumnWidths,
         $sheet->getStyle('H')->getAlignment()->setWrapText(true);
         $sheet->getStyle('I')->getAlignment()->setWrapText(true);
         $sheet->getStyle('J')->getAlignment()->setWrapText(true);
-
-
         return [
             // Style the first row as bold text.
             1    => ['font' => ['bold' => true]],
             // Styling a specific cell by coordinate.
-            'A' => ['font' => [ 'bold' => true]],
+            'A' => ['font' => ['bold' => true]],
         ];
     }
 }
