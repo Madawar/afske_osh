@@ -10,13 +10,16 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, WithStyles
+class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, WithStyles, WithTitle
 {
     public $collection;
-    public function __construct($collection)
+    public $year;
+    public function __construct($collection, $year)
     {
         $this->collection = $collection;
+        $this->year = $year;
     }
 
     public function view(): View
@@ -57,5 +60,13 @@ class IncidentExport  implements FromView, ShouldAutoSize, WithColumnWidths, Wit
             // Styling a specific cell by coordinate.
             'A' => ['font' => ['italic' => true, 'bold' => true]],
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return 'Year ' . $this->year;
     }
 }
